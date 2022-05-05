@@ -9,6 +9,7 @@
 
 # IDE files
 .idea
+rest-api-generator.iml
 
 # rspec failure tracking
 .rspec_status
