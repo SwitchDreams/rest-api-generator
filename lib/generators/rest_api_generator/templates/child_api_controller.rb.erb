@@ -1,0 +1,38 @@
+class <%= class_name.pluralize %>Controller < ApplicationController
+  before_action :set_<%= options['scope'].downcase %>
+  def create
+    @<%= singular_name %> = @<%= options['scope'].downcase %>.<%= plural_name %>.create(<%= singular_name %>_params)
+    render json: @<%= singular_name %>, status: :ok
+  end
+
+  def update
+    @<%= singular_name %> = @<%= options['scope'].downcase %>.<%= plural_name %>.find(params[:id])
+    @<%= singular_name %>.update(<%= singular_name %>_params)
+    render json: @<%= singular_name %>, status: :ok
+  end
+
+  def destroy
+    @<%= singular_name %> = @<%= options['scope'].downcase %>.<%= plural_name %>.find(params[:id])
+    @<%= singular_name %>.destroy!
+  end
+
+  def index
+    @<%= plural_name %> = @<%= options['scope'].downcase %>.<%= plural_name %>
+    render json: @<%= plural_name %>, status: :ok
+  end
+
+  def show
+    @<%= singular_name %> = @<%= options['scope'].downcase %>.<%= plural_name %>.find(params[:id])
+    render json: @<%= singular_name %>, status: :ok
+  end
+
+  private
+
+  def <%= singular_name %>_params
+    params.require(:<%= singular_name %>).permit(<%= attributes.map { |a| ':' + a.name }.join(', ') %>)
+  end
+
+  def set_<%= options['scope'].downcase %>
+    @<%= options['scope'].downcase %> = <%= options['scope'] %>.find(params[:<%= options['scope'].downcase %>_id])
+  end
+end

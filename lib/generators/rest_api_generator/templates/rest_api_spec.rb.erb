@@ -1,0 +1,47 @@
+require 'rails_helper'
+
+RSpec.describe "<%= class_name %>", type: :request do
+let(:<%= singular_table_name %>) { create(:<%=singular_table_name %>) }
+let(:valid_attributes) { attributes_for(:<%= singular_table_name %>) }
+
+describe "GET /<%= plural_name %>/:id" do
+  it "returns http success" do
+    get "/<%= plural_name %>/#{<%= singular_name %>.id}"
+    expect(response).to have_http_status(:success)
+  end
+end
+
+describe "GET /<%= plural_name %>" do
+  it "returns http success" do
+    get "/<%= plural_name %>"
+    expect(response).to have_http_status(:success)
+  end
+end
+
+describe "POST /<%= plural_name %>" do
+  it "creates a new item" do
+    expect do
+      post "/<%= plural_name %>",
+           params: { <%= singular_name %>: valid_attributes }
+    end.to change(<%= class_name %>, :count).by(1)
+  end
+end
+
+describe "PATCH /potatos" do
+  it "return http success" do
+    patch "/<%= plural_name %>/#{<%= singular_name %>.id}",
+          params: { <%= singular_name %>: valid_attributes }
+    expect(response).to have_http_status(:success)
+  end
+end
+
+describe "DELETE /<%= plural_name %>" do
+  it "deletes an <%= plural_name %>" do
+    item = create(:<%= singular_name %>)
+    expect do
+      delete "/<%= plural_name %>/#{item.id}"
+    end.to change(<%= class_name %>, :count).by(-1)
+  end
+end
+
+end

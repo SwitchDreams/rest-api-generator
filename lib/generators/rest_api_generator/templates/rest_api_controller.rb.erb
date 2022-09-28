@@ -1,0 +1,33 @@
+class <%= class_name.pluralize %>Controller < ApplicationController
+  def create
+    @<%= singular_name %> = <%= class_name %>.create(<%= singular_name %>_params)
+    render json: @<%= singular_name %>, status: :ok
+  end
+
+  def update
+    @<%= singular_name %> = <%= class_name %>.update(<%= singular_name %>_params)
+    render json: @<%= singular_name %>, status: :ok
+  end
+
+  def destroy
+    @<%= singular_name %> = <%= class_name %>.find(params[:id])
+    @<%= singular_name %>.destroy!
+  end
+
+  def index
+    @<%= singular_name %> = <%= class_name %>.all
+    render json: @<%= singular_name %>, status: :ok
+  end
+
+  def show
+    @<%= singular_name %> = <%= class_name %>.find(params[:id])
+    render json: @<%= singular_name %>, status: :ok
+  end
+
+  private
+
+  def <%= singular_name %>_params
+    <%= options['scope'] %>
+    params.require(:<%= singular_name %>).permit(<%= attributes.map { |a| ':' + a.name }.join(', ') %>)
+  end
+end
