@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails/generators"
 require "generators/rest_api_generator/helpers"
 module RestApiGenerator

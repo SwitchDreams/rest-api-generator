@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RestApiGenerator
   module Helpers
     attr_accessor :options, :attributes
@@ -11,7 +13,7 @@ module RestApiGenerator
     end
 
     def editable_attributes
-      attributes ||= model_columns_for_attributes.map do |column|
+      @editable_attributes ||= model_columns_for_attributes.map do |column|
         Rails::Generators::GeneratedAttribute.new(column.name.to_s, column.type.to_s)
       end
     end

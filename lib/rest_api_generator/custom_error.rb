@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RestApiGenerator
   class CustomError < StandardError
     attr_reader :status, :error, :message
