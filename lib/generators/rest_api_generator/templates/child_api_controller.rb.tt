@@ -4,7 +4,7 @@ class <%= class_name.pluralize %>Controller < ApplicationController
 
   def index
     @<%= plural_name %> = @<%= options['scope'].downcase %>.<%= plural_name %>
-      render json: @<%= plural_name %>, status: :ok
+    render json: @<%= plural_name %>, status: :ok
   end
 
   def show
