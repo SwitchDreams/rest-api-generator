@@ -13,16 +13,19 @@ module RestApiGenerator
 
     def create_service_file
       Rails::Generators.invoke("model", [file_name, build_model_attributes])
-      generator_path = API_CONTROLLER_DIR_PATH + "/#{file_name.pluralize}_controller.rb"
-      test_path = API_TEST_DIR_PATH + "/#{file_name}_spec.rb"
       if options["scope"].empty?
-        template "rest_api_controller.rb.erb", generator_path
-        template "rest_api_spec.rb.erb", test_path
+        controller_path = "#{API_CONTROLLER_DIR_PATH}/#{file_name.pluralize}_controller.rb"
+        controller_test_path = "#{API_TEST_DIR_PATH}/#{file_name.pluralize}_controller_spec.rb"
+        template "rest_api_controller.rb", controller_path
+        template "rest_api_spec.rb", controller_test_path
         routes_string = "resources :#{file_name.pluralize}"
         route routes_string
       else
-        template "child_api_controller.rb.erb", generator_path
-        template "child_api_spec.rb.erb", test_path
+        scope_path = options["scope"].pluralize
+        controller_path = "#{API_CONTROLLER_DIR_PATH}/#{scope_path}/#{file_name.pluralize}_controller.rb"
+        controller_test_path = "#{API_TEST_DIR_PATH}/#{scope_path}/#{file_name.pluralize}_controller_spec.rb"
+        template "child_api_controller.rb", controller_path
+        template "child_api_spec.rb", controller_test_path
       end
     end
 
