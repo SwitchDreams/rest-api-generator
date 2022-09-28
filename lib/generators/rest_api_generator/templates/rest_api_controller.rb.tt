@@ -1,0 +1,36 @@
+class <%= class_name.pluralize %>Controller < ApplicationController
+  before_action :set_<%= singular_name %>, only: %i[ show update destroy ]
+
+  def index
+    @<%= singular_name %> = <%= class_name %>.all
+    render json: @<%= singular_name %>, status: :ok
+  end
+
+  def show
+    render json: @<%= singular_name %>, status: :ok
+  end
+
+  def create
+    @<%= singular_name %> = <%= class_name %>.create!(<%= singular_name %>_params)
+    render json: @<%= singular_name %>, status: :created
+  end
+
+  def update
+    @<%= singular_name %> = <%= class_name %>.update!(<%= singular_name %>_params)
+    render json: @<%= singular_name %>, status: :ok
+  end
+
+  def destroy
+    @<%= singular_name %>.destroy!
+  end
+
+  private
+
+  def set_<%= singular_name %>
+    @<%= singular_name %> = <%= class_name %>.find(params[:id])
+  end
+
+  def <%= singular_name %>_params
+    params.require(:<%= singular_name %>).permit(<%= attributes.map { |a| ':' + a.name }.join(', ') %>)
+  end
+end
