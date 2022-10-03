@@ -4,16 +4,17 @@ RSpec.describe "<%= class_name %>", type: :request do
   let(:<%= singular_table_name %>) { create(:<%= singular_table_name %>) }
   let(:valid_attributes) { attributes_for(:<%= singular_table_name %>) }
 
-  describe "GET /<%= plural_name %>/:id" do
+  describe "GET /<%= plural_name %>" do
     it "returns http success" do
-      get "/<%= plural_name %>/#{<%= singular_name %>.id}"
+      create(:<%= singular_table_name %>)
+      get "/<%= plural_name %>"
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET /<%= plural_name %>" do
+  describe "GET /<%= plural_name %>/:id" do
     it "returns http success" do
-      get "/<%= plural_name %>"
+      get "/<%= plural_name %>/#{<%= singular_name %>.id}"
       expect(response).to have_http_status(:success)
     end
   end
