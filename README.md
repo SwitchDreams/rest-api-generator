@@ -20,15 +20,20 @@ Or install it yourself as:
 
     $ gem install rest-api-generator
 
-## Usage
-
-### Requirements
-You need to have inntalled in your application rspec and factory bot
+## Requirements
+You need to have installed in your application rspec and factory bot
 
 <ul>
   <li>Rspec: https://github.com/rspec/rspec-rails</li>
-  <li>Facory bot: https://github.com/thoughtbot/factory_bot_rails</li>
+  <li>Factory bot: https://github.com/thoughtbot/factory_bot_rails</li>
 </ul>
+
+then inside your folder app/spec create a new folder called "requests", that's where your tests will be generated
+
+## Usage
+### Run command
+> rails g generator table_name
+
 
 
 ## Development
