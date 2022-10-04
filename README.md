@@ -38,7 +38,24 @@ then inside your folder app/spec create a new folder called "requests", that's w
 > rails g generator car door:integer name:string
 
 #### Model
-this will generate a table name car with two attributes, door type integer and name type string
+this will generate a table named car with two attributes, door type integer and name type string
+
+### Endpoint
+It will genrate a controller CarsController that has the methods
+
+<ul>
+    <li>Create</li>
+    <li>Delete</li>
+    <li>Update</li>
+    <li>Index</li>
+    <li>Show</li>
+</ul>
+
+************************************************************************************
+create and update will have permitted params defined by the attributes defined in the command, in thhis case door and name
+    
+    
+    
 
 
 
