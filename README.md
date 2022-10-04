@@ -22,7 +22,14 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+###Requirements
+You need to have inntalled in your application rspec and factory bot
+
+<ul>
+  <li>Rspec: https://github.com/rspec/rspec-rails</li>
+  <li>Facory bot: https://github.com/thoughtbot/factory_bot_rails</li>
+</ul>
+
 
 ## Development
 
