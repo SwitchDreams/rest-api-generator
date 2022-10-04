@@ -22,7 +22,7 @@ Or install it yourself as:
 
 ## Usage
 
-###Requirements
+### Requirements
 You need to have inntalled in your application rspec and factory bot
 
 <ul>
