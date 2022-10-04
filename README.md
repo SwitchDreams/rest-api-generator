@@ -35,9 +35,6 @@ then inside your folder app/spec create a new folder called "requests", that's w
 > rails g generator table_name attributes
 
 ************************************************************************************
-### Example
-> rails g generator car door:integer name:string
-
 #### Model
 this will generate a table named car with two attributes, door type integer and name type string
 
@@ -46,19 +43,25 @@ this will generate a table named car with two attributes, door type integer and 
 It will genrate a controller CarsController that has the methods
 
 ##### Create
+saves instance of generated model to database and return json of instance with status ok
 
 ##### Update
+updates instance of generated modelfrom database and return json of instance with status ok
 
 ##### Delete
+deletes instance of generated model from database 
 
 ##### Show
+returns JSON instance of generated model from database with status ok
 
 ##### Index
+returns JSON instance of generated model from database with status ok
 ************************************************************************************
+### Spec
 
 
 
-create and update will have permitted params defined by the attributes defined in the command, in thhis case door and name
+create and update will have permitted params defined by the attributes defined in the command, in this case door and name
     
     
     
