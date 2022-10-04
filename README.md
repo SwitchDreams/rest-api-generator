@@ -32,7 +32,13 @@ then inside your folder app/spec create a new folder called "requests", that's w
 
 ## Usage
 ### Run command
-> rails g generator table_name
+> rails g generator table_name attributes
+ 
+### Example
+> rails g generator car door:integer name:string
+
+#### Model
+this will generate a table name car with two attributes, door type integer and name type string
 
 
 
