@@ -1,8 +1,16 @@
 # RestApiGenerator
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rest/api/generator`. To experiment with that code, run `bin/console` for an interactive prompt.
+This gem works as a scaffold to generate an endpoint, it generates:
 
-TODO: Delete this and the text above, and describe your gem
+<ul>
+    <li> Model </li>
+    <li> Migration </li>
+    <li> Controller </li>
+    <li> Spec test of controller </li>
+    <li> Factory bot </li>
+</ul>
+
+the commnad its simmilar to the model generator "rails g model model_name", in fact it onvokes this generator to genrate the model and migration file
 
 ## Installation
 
