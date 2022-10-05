@@ -32,11 +32,11 @@ then inside your folder app/spec create a new folder called "requests", that's w
 
 ## Usage
 ### Run command
-> rails g generator table_name attributes
+   $ rails g generator table_name attributes
 
 ************************************************************************************
 #### Model
-this will generate a table named car with two attributes, door type integer and name type string
+this will generate a table and a migration with the table name and it's attribute, it invokes the model generator
 
 ************************************************************************************
 #### Endpoint
@@ -56,17 +56,37 @@ returns JSON instance of generated model from database with status ok
 
 ##### Index
 returns JSON instance of generated model from database with status ok
+
+
+create and update will have permitted params defined by the attributes defined in the command (except if the attribute is type reference)
 ************************************************************************************
 ### Spec
 
+##### Create
+checks if instance was saved in database
 
+##### Update
+checks if instance was updated in database ok
 
-create and update will have permitted params defined by the attributes defined in the command, in this case door and name
-    
-    
-    
+##### Delete
+checks if instance was deleted from database
 
+##### Show
+check if status ok
 
+##### Index
+check if status ok 
+
+************************************************************************************
+### Factory
+The factory will be generated with it's custom generator, defined in the instalation of the factory-bot
+
+************************************************************************************
+### Scope
+It's possible to add flag in the command to generate an endpoint with a parent
+   $ rails g generator table_name attributes --scope father_name
+
+the only thing this won't genrate it's the nested routes, but it will generate all the previous files mentioned just liek a scaffold
 
 ## Development
 
