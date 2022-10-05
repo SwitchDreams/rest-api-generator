@@ -5,12 +5,13 @@ This gem works as a scaffold to generate an endpoint, it generates:
 <ul>
     <li> Model </li>
     <li> Migration </li>
+    <li> Routes (resource) </li>
     <li> Controller </li>
     <li> Spec test of controller </li>
     <li> Factory bot </li>
 </ul>
 
-the commnad its simmilar to the model generator "rails g model model_name", in fact it onvokes this generator to genrate the model and migration file
+the commnad its simmilar to the model generator "rails g model model_name attributes", in fact it invokes this generator to genrate the model and migration file
 
 ## Installation
 
@@ -88,6 +89,11 @@ check if status ok
 ************************************************************************************
 ### Factory
 The factory will be generated with it's custom generator, defined in the instalation of the factory-bot
+
+************************************************************************************
+### Routes
+the routes generated are the basic resources routes:
+    table_name: resources
 
 ************************************************************************************
 ### Scope
