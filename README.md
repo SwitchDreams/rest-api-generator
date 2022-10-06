@@ -1,17 +1,10 @@
-# RestApiGenerator
+# Rest Api Generator
 
-This gem works as a scaffold to generate an endpoint, it generates:
+This gem helps your to build a Ruby on Rails REST api, using a scaffold generator following the best pratices.
 
-<ul>
-    <li> Model </li>
-    <li> Migration </li>
-    <li> Routes (resource) </li>
-    <li> Controller </li>
-    <li> Spec test of controller </li>
-    <li> Factory bot </li>
-</ul>
+## How it works?
 
-the commnad its simmilar to the model generator "rails g model model_name attributes", in fact it invokes this generator to genrate the model and migration file
+We use SwitchDreams default way to make controller using RSpec and FactoryBot for testing and use a custom expection to centralize error handle like this article https://medium.com/rails-ember-beyond/error-handling-in-rails-the-modular-way-9afcddd2fe1b
 
 ## Installation
 
@@ -37,70 +30,17 @@ You need to have installed in your application rspec and factory bot
   <li>Factory bot: https://github.com/thoughtbot/factory_bot_rails</li>
 </ul>
 
-then inside your folder app/spec create a new folder called "requests", that's where your tests will be generated
-
 ## Usage
-### Run command
-   $ rails g generator table_name attributes
-
-************************************************************************************
-#### Model
-this will generate a table and a migration with the table name and it's attribute, it invokes the model generator
-
-************************************************************************************
-#### Endpoint
-It will genrate a controller CarsController that has the methods
-
-##### Create
-saves instance of generated model to database and return json of instance with status ok
-
-##### Update
-updates instance of generated modelfrom database and return json of instance with status ok
-
-##### Delete
-deletes instance of generated model from database 
-
-##### Show
-returns JSON instance of generated model from database with status ok
-
-##### Index
-returns JSON instance of generated model from database with status ok
-
-
-create and update will have permitted params defined by the attributes defined in the command (except if the attribute is type reference)
-************************************************************************************
-### Spec
-
-##### Create
-checks if instance was saved in database
-
-##### Update
-checks if instance was updated in database ok
-
-##### Delete
-checks if instance was deleted from database
-
-##### Show
-check if status ok
-
-##### Index
-check if status ok 
-
-************************************************************************************
-### Factory
-The factory will be generated with it's custom generator, defined in the instalation of the factory-bot
-
-************************************************************************************
-### Routes
-the routes generated are the basic resources routes:
-    table_name: resources
-
-************************************************************************************
-### Scope
-It's possible to add flag in the command to generate an endpoint with a parent
-   $ rails g generator table_name attributes --scope father_name
-
-the only thing this won't genrate it's the nested routes, but it will generate all the previous files mentioned just liek a scaffold
+### Generate Resource
+```bash
+$ rails g rest-api-generator-resource table_name attributes
+```
+This command will create:
+- **Model and Migration**: Using rails default model generator
+- **Controller**: A controller with index,show,create,update and destroy methods.
+- **Specs for the created controller**
+- **Factory bot factory for created model**
+- **Routes**: with rails resources
 
 ## Development
 
@@ -110,7 +50,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rest-api-generator. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/rest-api-generator/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/SwitchDreams/rest-api-generator. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/SwitchDreams/rest-api-generator/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 
