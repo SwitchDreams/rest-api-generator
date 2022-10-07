@@ -13,3 +13,5 @@ rest-api-generator.iml
 
 # rspec failure tracking
 .rspec_status
+
+rest-api-generator-*.gem
