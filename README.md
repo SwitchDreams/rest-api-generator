@@ -1,15 +1,19 @@
 # rest-api-generator
 
-This gem helps you to build a Ruby on Rails REST API, using a scaffold generator following the best practices.
+This gem helps you to build a Ruby on Rails REST API faster, using a scaffold-like generator that follows the best
+practices.
 
 ## How it works?
 
-The gems use rails generators and some templates to create all resources needed to build an REST API.
+The gems use vanilla Rails generators n combination with our templates to create all the resources needed to build a
+REST API.
 
-The controller is built following SwitchDreams default way:
+Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices, the controllers are built with:
 
-- Using an error handler module to deal with a custom exception for centralize error handler following
-  this article https://medium.com/rails-ember-beyond/error-handling-in-rails-the-modular-way-9afcddd2fe1b.
+- We use an error module to centralize error handling, rescuing from a custom and some of ActiveRecord exceptions.
+  The inspiration for this strategy was
+  this [article](https://medium.com/rails-ember-beyond/error-handling-in-rails-the-modular-way-9afcddd2fe1b.)
+
 - For tests, we use RSpec and FactoryBot.
 
 ## Installation
@@ -32,16 +36,17 @@ Or install it yourself as:
 
 ## Requirements
 
-1. You need to have installed in your application rspec and factory bot
+1. You need to have installed RSpec and FactoryBot in your application.
 
 <ul>
-  <li>Rspec: https://github.com/rspec/rspec-rails</li>
+  <li>RSpec: https://github.com/rspec/rspec-rails</li>
   <li>Factory bot: https://github.com/thoughtbot/factory_bot_rails</li>
 </ul>
 
 2. Include in ApplicationController the error handler module:
 
 ```ruby
+
 class ApplicationController < ActionController::API
   include RestApiGenerator::ErrorHandler
 end
@@ -129,14 +134,8 @@ push git commits and the created tag, and push the `.gem` file to [rubygems.org]
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/SwitchDreams/rest-api-generator. This project
 is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to
-the [code of conduct](https://github.com/SwitchDreams/rest-api-generator/blob/master/CODE_OF_CONDUCT.md).
+the [code of conduct](https://github.com/SwitchDreams/rest-api-generator/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the Rest::Api::Generator project's codebases, issue trackers, chat rooms and mailing lists is
-expected to follow
-the [code of conduct](https://github.com/[USERNAME]/rest-api-generator/blob/master/CODE_OF_CONDUCT.md).
