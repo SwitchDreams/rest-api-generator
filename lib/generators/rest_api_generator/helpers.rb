@@ -17,5 +17,14 @@ module RestApiGenerator
         Rails::Generators::GeneratedAttribute.new(column.name.to_s, column.type.to_s)
       end
     end
+
+    def versioning?
+      !options["scope"].empty?
+    end
+
+    def version
+      parts = options["scope"].split(".")
+      "module " + parts[0].capitalize + '::' + parts[1].capitalize
+    end
   end
 end

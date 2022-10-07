@@ -15,20 +15,20 @@ module RestApiGenerator
 
     def create_service_file
       Rails::Generators.invoke("model", [file_name, build_model_attributes])
-      if options["scope"].empty?
-        controller_path = "#{API_CONTROLLER_DIR_PATH}/#{file_name.pluralize}_controller.rb"
+      # if options["scope"].empty?
+        controller_path = "#{define_scope}/#{file_name.pluralize}_controller.rb"
         controller_test_path = "#{API_TEST_DIR_PATH}/#{file_name.pluralize}_controller_spec.rb"
         template "rest_api_controller.rb", controller_path
         template "rest_api_spec.rb", controller_test_path
         routes_string = "resources :#{file_name.pluralize}"
         route routes_string
-      else
-        scope_path = options["scope"].pluralize
-        controller_path = "#{API_CONTROLLER_DIR_PATH}/#{scope_path}/#{file_name.pluralize}_controller.rb"
-        controller_test_path = "#{API_TEST_DIR_PATH}/#{scope_path}/#{file_name.pluralize}_controller_spec.rb"
-        template "child_api_controller.rb", controller_path
-        template "child_api_spec.rb", controller_test_path
-      end
+      # else
+      #   scope_path = options["scope"].pluralize
+      #   controller_path = "#{API_CONTROLLER_DIR_PATH}/#{scope_path}/#{file_name.pluralize}_controller.rb"
+      #   controller_test_path = "#{API_TEST_DIR_PATH}/#{scope_path}/#{file_name.pluralize}_controller_spec.rb"
+      #   template "child_api_controller.rb", controller_path
+      #   template "child_api_spec.rb", controller_test_path
+      # end
     end
 
     private
@@ -40,5 +40,15 @@ module RestApiGenerator
       end
       model_attributes
     end
+
+    def define_scope
+      if options["scope"].empty?
+        API_CONTROLLER_DIR_PATH
+      else
+        parts = options["scope"].split(".")
+        API_CONTROLLER_DIR_PATH + "/#{parts[0]}/#{parts[1]}"
+      end
+    end
+
   end
 end
