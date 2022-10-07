@@ -17,7 +17,9 @@ The controller is built following SwitchDreams default way:
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rest-api-generator'
+group :development do
+  gem 'rest-api-generator'
+end
 ```
 
 And then execute:
@@ -30,12 +32,24 @@ Or install it yourself as:
 
 ## Requirements
 
-You need to have installed in your application rspec and factory bot
+1. You need to have installed in your application rspec and factory bot
 
 <ul>
   <li>Rspec: https://github.com/rspec/rspec-rails</li>
   <li>Factory bot: https://github.com/thoughtbot/factory_bot_rails</li>
 </ul>
+
+2. Include in ApplicationController the error handler module:
+
+```ruby
+class ApplicationController < ActionController::API
+  include RestApiGenerator::ErrorHandler
+end
+```
+
+This error handler will rescue from: `ActiveRecord::RecordNotFound`
+, `ActiveRecord::ActiveRecordError`, `ActiveRecord::RecordInvalid`, `ActiveModel::ValidationError`
+, `RestApiGenerator::CustomError`.
 
 ## Usage
 
