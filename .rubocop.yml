@@ -1,6 +1,8 @@
 AllCops:
   NewCops: enable
   TargetRubyVersion: 2.6
+  Exclude:
+    - 'rest-api-generator.gemspec'
 
 Style/StringLiterals:
   Enabled: true
