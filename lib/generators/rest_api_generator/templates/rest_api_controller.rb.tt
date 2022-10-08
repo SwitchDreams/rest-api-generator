@@ -1,4 +1,4 @@
-<% if versioning? -%>
+<% if scope? -%>
 <%= version %>
 <% end -%>
 class <%= class_name.pluralize %>Controller < ApplicationController
@@ -37,6 +37,6 @@ class <%= class_name.pluralize %>Controller < ApplicationController
     params.require(:<%= singular_name %>).permit(<%= attributes.map { |a| ':' + a.name }.join(', ') %>)
   end
 end
-<% if versioning? -%>
+<% if scope? -%>
 end
 <% end -%>

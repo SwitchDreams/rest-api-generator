@@ -18,13 +18,17 @@ module RestApiGenerator
       end
     end
 
-    def versioning?
+    def scope?
       !options["scope"].empty?
     end
 
     def version
       parts = options["scope"].split(".")
-      "module " + parts[0].capitalize + '::' + parts[1].capitalize
+      new_path = parts[0].capitalize
+      parts.drop(1).each do |part|
+        new_path += '::' + part.capitalize
+      end
+      "module " + new_path
     end
   end
 end
