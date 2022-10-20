@@ -16,6 +16,17 @@ Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices,
 
 - For tests, we use RSpec and FactoryBot.
 
+## Next Features
+- Generate nested resource end-points
+- Automated documentation
+- Integration with AVO
+- Pagination
+- Serialization
+- Resource sorting
+- Resource filter
+- Select fields
+- User auth module
+
 ## Installation
 
 Add this line to your application's Gemfile:
