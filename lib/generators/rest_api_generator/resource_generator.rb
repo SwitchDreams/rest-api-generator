@@ -17,7 +17,7 @@ module RestApiGenerator
       Rails::Generators.invoke("model", [file_name, build_model_attributes])
       controller_path = "#{define_scope}/#{file_name.pluralize}_controller.rb"
       controller_test_path = "#{API_TEST_DIR_PATH}/#{file_name.pluralize}_controller_spec.rb"
-      template "rest_api_controller.rb", controller_path
+      template define_template, controller_path
       template "rest_api_spec.rb", controller_test_path
       routes_string = "resources :#{file_name.pluralize}"
       route routes_string
@@ -43,6 +43,14 @@ module RestApiGenerator
           new_path += '/' + part
         end
         API_CONTROLLER_DIR_PATH + new_path
+      end
+    end
+
+    def define_template
+      if options["scope"].empty?
+        "rest_api_controller.rb"
+      else
+        "scope_rest_api_controller.rb"
       end
     end
 
