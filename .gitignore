@@ -15,3 +15,5 @@ rest-api-generator.iml
 .rspec_status
 
 rest-api-generator-*.gem
+
+tmp
