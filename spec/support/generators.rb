@@ -16,7 +16,11 @@ module RestApiGenerator
             prepare_destination
             # Create routes file
             FileUtils.mkdir_p("#{DEFAULT_DESTINATION_PATH}/config")
-            FileUtils.touch("#{DEFAULT_DESTINATION_PATH}/config/routes.rb")
+            File.open("#{DEFAULT_DESTINATION_PATH}/config/routes.rb", "w") do |f|
+              f.puts("Rails.application.routes.draw do")
+              f.puts("")
+              f.puts("end")
+            end
           end
         end
       end
