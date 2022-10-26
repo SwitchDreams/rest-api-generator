@@ -27,4 +27,3 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   AllowedMethods: [ 'describe', 'context' ]
-  Max: 100
