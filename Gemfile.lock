@@ -2,6 +2,8 @@ PATH
   remote: .
   specs:
     rest-api-generator (0.1.1)
+      actionview (>= 6.0)
+      activerecord (>= 6.0)
       railties (>= 5.0.0)
 
 GEM
@@ -20,20 +22,26 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    activemodel (7.0.4)
+      activesupport (= 7.0.4)
+    activerecord (7.0.4)
+      activemodel (= 7.0.4)
+      activesupport (= 7.0.4)
     activesupport (7.0.4)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    ammeter (1.1.5)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec-rails (>= 2.2)
     ast (2.4.2)
     builder (3.2.4)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
     diff-lcs (1.5.0)
     erubi (1.11.0)
-    generator_spec (0.9.4)
-      activesupport (>= 3.0.0)
-      railties (>= 3.0.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     json (2.6.2)
@@ -79,6 +87,14 @@ GEM
     rspec-mocks (3.11.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.11.0)
+    rspec-rails (6.0.1)
+      actionpack (>= 6.1)
+      activesupport (>= 6.1)
+      railties (>= 6.1)
+      rspec-core (~> 3.11)
+      rspec-expectations (~> 3.11)
+      rspec-mocks (~> 3.11)
+      rspec-support (~> 3.11)
     rspec-support (3.11.1)
     rubocop (1.37.0)
       json (~> 2.3)
@@ -93,6 +109,7 @@ GEM
     rubocop-ast (1.22.0)
       parser (>= 3.1.1.0)
     ruby-progressbar (1.11.0)
+    sqlite3 (1.5.3-x86_64-linux)
     thor (1.2.1)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
@@ -103,11 +120,13 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  generator_spec
+  ammeter (~> 1.1.5)
   rake (~> 13.0)
   rest-api-generator!
   rspec (~> 3.0)
+  rspec-rails (~> 6.0.0)
   rubocop (~> 1.21)
+  sqlite3
 
 BUNDLED WITH
    2.3.3
