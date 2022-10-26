@@ -1,22 +1,31 @@
 # frozen_string_literal: true
 
-require "generator_spec"
 require "generators/rest_api_generator/resource_generator"
+require "spec_helper"
+require "support/generators"
 
 RSpec.describe RestApiGenerator::ResourceGenerator, type: :generator do
-  destination File.expand_path("../../../../tmp", __dir__)
-  arguments %w[user]
+  setup_default_destination
 
-  before(:all) do
-    prepare_destination
-    run_generator
+  before do
+    run_generator %w[user]
   end
 
-  it "creates a controller" do
-    assert_file "app/controllers/users_controller.rb"
+  describe "creates a controller" do
+    subject { file("app/controllers/users_controller.rb") }
+
+    it { is_expected.to exist }
   end
 
-  it "creates a spec for the controller" do
-    assert_file "spec/requests/users_controller_spec.rb"
+  describe "creates a spec for the controller" do
+    subject { file("spec/requests/users_controller_spec.rb") }
+
+    it { is_expected.to exist }
+  end
+
+  describe "creates a model file" do
+    subject { file("app/models/user.rb") }
+
+    it { is_expected.to exist }
   end
 end
