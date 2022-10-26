@@ -18,7 +18,6 @@ module RestApiGenerator
             FileUtils.mkdir_p("#{DEFAULT_DESTINATION_PATH}/config")
             File.open("#{DEFAULT_DESTINATION_PATH}/config/routes.rb", "w") do |f|
               f.puts("Rails.application.routes.draw do")
-              f.puts("")
               f.puts("end")
             end
           end
