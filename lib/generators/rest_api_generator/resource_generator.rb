@@ -9,6 +9,8 @@ module RestApiGenerator
 
     argument :attributes, type: :array, default: [], banner: "field[:type][:index] field[:type][:index]"
     class_option :scope, type: :string, default: ""
+    class_option :father, type: :string, default: ""
+
 
     API_CONTROLLER_DIR_PATH = "app/controllers"
     API_TEST_DIR_PATH = "spec/requests"
@@ -19,7 +21,11 @@ module RestApiGenerator
       controller_test_path = "#{API_TEST_DIR_PATH}/#{file_name.pluralize}_controller_spec.rb"
       template define_template, controller_path
       template "rest_api_spec.rb", controller_test_path
-      routes_string = "resources :#{file_name.pluralize}"
+      if options["father"].empty?
+        routes_string = "resources :#{file_name.pluralize}"
+      else
+        route_namespaced_resources(options['father'], file_name.pluralize)
+      end
       route routes_string
     end
 
@@ -54,5 +60,11 @@ module RestApiGenerator
       end
     end
 
+    def route_namespaced_resources(father, child)
+      sentinel = 'Rails.application.routes.draw do'
+      gsub_file 'config/routes.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
+        "#{match}\n resources :#{father.downcase.pluralize} do\n   resources :#{child.downcase.pluralize}\n end"
+      end
+    end
   end
 end
