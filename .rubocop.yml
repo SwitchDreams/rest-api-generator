@@ -24,3 +24,7 @@ Metrics/MethodLength:
 
 Metrics/AbcSize:
   Max: 25
+
+Metrics/BlockLength:
+  AllowedMethods: [ 'describe', 'context' ]
+  Max: 100
