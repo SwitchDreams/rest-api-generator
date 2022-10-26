@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require "rails/generators"
+require "rails/generators/active_model"
+require "rails/generators/rails/model/model_generator"
 require "generators/rest_api_generator/helpers"
 module RestApiGenerator
   class ResourceGenerator < Rails::Generators::NamedBase
@@ -14,7 +16,9 @@ module RestApiGenerator
     API_TEST_DIR_PATH = "spec/requests"
 
     def create_service_file
-      Rails::Generators.invoke("model", [file_name, build_model_attributes])
+      g = Rails::Generators::ModelGenerator.new([file_name, build_model_attributes])
+      g.destination_root = destination_root
+      g.invoke_all
       if options["scope"].empty?
         controller_path = "#{API_CONTROLLER_DIR_PATH}/#{file_name.pluralize}_controller.rb"
         controller_test_path = "#{API_TEST_DIR_PATH}/#{file_name.pluralize}_controller_spec.rb"
