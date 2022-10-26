@@ -16,9 +16,7 @@ module RestApiGenerator
     API_TEST_DIR_PATH = "spec/requests"
 
     def create_service_file
-      g = Rails::Generators::ModelGenerator.new([file_name, build_model_attributes])
-      g.destination_root = destination_root
-      g.invoke_all
+      create_model_files
       if options["scope"].empty?
         controller_path = "#{API_CONTROLLER_DIR_PATH}/#{file_name.pluralize}_controller.rb"
         controller_test_path = "#{API_TEST_DIR_PATH}/#{file_name.pluralize}_controller_spec.rb"
@@ -36,6 +34,12 @@ module RestApiGenerator
     end
 
     private
+
+    def create_model_files
+      g = Rails::Generators::ModelGenerator.new([file_name, build_model_attributes])
+      g.destination_root = destination_root
+      g.invoke_all
+    end
 
     def build_model_attributes
       model_attributes = []
