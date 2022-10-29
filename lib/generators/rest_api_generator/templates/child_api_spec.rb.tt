@@ -5,10 +5,10 @@ RSpec.describe "<%=class_name %>", type: :request do
 
   describe "POST /<%= plural_name%>" do
     context "with valid parameters" do
-      it "creates a new <%=singular_name %>" do
-        <%= options['scope'].downcase %> = create(:<%= options['scope'].downcase %>)
+      let(:<%= options['father'].downcase.singularize %>) { create(:<%= options['father'].downcase.singularize %>) }
+      it "creates a new <%= singular_name %>" do
         expect do
-          post "/<%= options['scope'].downcase.pluralize %>/#{<%= options['scope'].downcase %>.id}/<%= plural_name %>",
+          post "<%= child_spec_routes[:create] %>",
                params: { <%= singular_name %>: valid_attributes }
         end.to change(<%= class_name %>, :count).by(1)
       end
@@ -16,43 +16,43 @@ RSpec.describe "<%=class_name %>", type: :request do
   end
 
   describe "PATCH /<%= plural_name %>" do
-    let(:<%= options['scope'].downcase %>) {create(:<%= options['scope'].downcase %>)}
-    let(:<%= singular_table_name %>) { create(:<%=singular_table_name %>, <%= options['scope'].downcase %>: <%= options['scope'].downcase %>)}
+    let(:<%= options['father'].downcase.singularize %>) { create(:<%= options['father'].downcase.singularize %>) }
+    let(:<%= singular_table_name %>) { create(:<%=singular_table_name %>, <%= options['father'].downcase.singularize %>: <%= options['father'].downcase.singularize %>)}
 
     it "updates an <%=singular_name %>" do
-        patch "/<%= options['scope'].downcase.pluralize %>/#{<%= options['scope'].downcase %>.id}/<%=plural_name %>/#{<%= singular_name %>.id}",
+        patch "<%= child_spec_routes[:update] %>",
             params: { <%= singular_name %>: valid_attributes }
         expect(response).to have_http_status(:success)
     end
   end
 
   describe "DELETE /<%= singular_name %>" do
-    let(:<%= options['scope'].downcase %>) {create(:<%= options['scope'].downcase %>)}
+    let(:<%= options['father'].downcase.singularize %>) { create(:<%= options['father'].downcase.singularize %>) }
 
     it "deletes an <%=singular_name %>" do
-      <%= singular_table_name %> = create(:<%=singular_table_name %>, <%= options['scope'].downcase %>: <%= options['scope'].downcase %>)
+      <%= singular_table_name %> = create(:<%=singular_table_name %>, <%= options['father'].downcase.singularize %>: <%= options['father'].downcase.singularize %>)
       expect do
-        delete "/<%= options['scope'].downcase.pluralize %>/#{<%= options['scope'].downcase %>.id}/<%=plural_name %>/#{<%= singular_name %>.id}"
+        delete "<%= child_spec_routes[:delete] %>"
       end.to change(<%= class_name %>, :count).by(-1)
     end
   end
 
   describe "GET/ <%= singular_name %>" do
-    let(:<%= options['scope'].downcase %>) {create(:<%= options['scope'].downcase %>)}
-    let(:<%= singular_table_name %>) { create(:<%=singular_table_name %>, <%= options['scope'].downcase %>: <%= options['scope'].downcase %>)}
+    let(:<%= options['father'].downcase.singularize %>) { create(:<%= options['father'].downcase.singularize %>) }
+    let(:<%= singular_table_name %>) { create(:<%=singular_table_name %>, <%= options['father'].downcase.singularize %>: <%= options['father'].downcase %>)}
 
     it "gets an <%=singular_name %>" do
-      get "/<%= options['scope'].downcase.pluralize %>/#{<%= options['scope'].downcase %>.id}/<%= plural_name %>/#{<%= singular_name %>.id}"
+      get "<%= child_spec_routes[:show] %>"
       expect(response).to be_successful
     end
   end
 
   describe "GET /<%= plural_name %>" do
-    let(:<%= options['scope'].downcase %>) {create(:<%= options['scope'].downcase %>)}
-    let(:<%= singular_table_name %>) { create(:<%=singular_table_name %>, <%= options['scope'].downcase %>: <%= options['scope'].downcase %>) }
+    let(:<%= options['father'].downcase.singularize %>) { create(:<%= options['father'].downcase.singularize %>) }
+    let(:<%= singular_table_name %>) { create(:<%=singular_table_name %>, <%= options['father'].downcase %>: <%= options['father'].downcase %>) }
 
     it "renders a successful response" do
-      get "/<%= options['scope'].downcase.pluralize %>/#{<%= options['scope'].downcase %>.id}/<%= plural_name %>"
+      get "<%= child_spec_routes[:index] %>"
       expect(response).to be_successful
     end
   end

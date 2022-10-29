@@ -28,7 +28,56 @@ module RestApiGenerator
       parts.drop(1).each do |part|
         new_path += '::' + part.capitalize
       end
-      "module " + new_path
+      if options['father'].empty?
+        "module " + new_path
+      else
+        "module " + new_path + '::' + options['father'].pluralize.capitalize
+      end
+    end
+
+    def child_spec_routes
+      routes = {}
+      if !options['scope'].empty?
+        parts = options["scope"].split(".")
+        new_path = ""
+        parts.each do |part|
+          new_path += '/' + part
+        end
+        routes[:index] = "#{new_path}/#{options['father'].downcase.pluralize}/" + '#{' + "#{options['father'].singularize.downcase}.id}/" + "/#{plural_name}"
+        routes[:show] = "#{new_path}/#{options['father'].downcase.pluralize}/"+ '#{' + "#{options['father'].singularize.downcase}.id}/" +"#{plural_name}/" + '#{' + "#{singular_name}.id}"
+        routes[:create] = "#{new_path}/#{options['father'].downcase.pluralize}/" '#{' + "#{options['father'].singularize.downcase}.id}/"+"#{plural_name}/"
+        routes[:update] = "#{new_path}/#{options['father'].downcase.pluralize}/" '#{' + "#{options['father'].singularize.downcase}.id}/"+"#{plural_name}/" + '#{' + "#{singular_name}.id}"
+        routes[:delete] = "#{new_path}/#{options['father'].downcase.pluralize}/" '#{' + "#{options['father'].singularize.downcase}.id}/"+"#{plural_name}/" + '#{item.id}'
+      else
+        routes[:index] = "/#{options['father'].downcase.pluralize}/"+'#{' + "#{options['father'].singularize.downcase}.id}/"+"#{plural_name}/"
+        routes[:show] = "/#{options['father'].downcase.pluralize}/"+ '#{' + "#{soptions['father'].singularize.downcase}.id}/"+"#{plural_name}/" + '#{' + "#{singular_name}.id}"
+        routes[:create] = "/#{options['father'].downcase.pluralize}/"+'#{' + "#{options['father'].singularize.downcase}.id}/"+"#{plural_name}/"
+        routes[:update] = "/#{options['father'].downcase.pluralize}/"+'#{' + "#{options['father'].singularize.downcase}.id}/"+"#{plural_name}/" + '#{' + "#{singular_name}.id}"
+        routes[:delete] = "/#{options['father'].downcase.pluralize}/"'#{' + "#{options['father'].singularize.downcase}.id}/"+"#{plural_name}/" + '#{item.id}'
+      end
+      routes
+    end
+
+    def scoped_spec_routes
+      routes = {}
+      routes[:index] = "/#{plural_name}"
+      routes[:show] = "/#{plural_name}/"+ '#{' + "#{singular_name}.id}"
+      routes[:create] = "/#{plural_name}"
+      routes[:update] = "/##{plural_name}/" +  '#{' + "#{singular_name}.id}"
+      routes[:delete] = "/#{plural_name}/" + '#{item.id}'
+      if !options['scope'].empty?
+        parts = options["scope"].split(".")
+        new_path = ""
+        parts.each do |part|
+          new_path += '/' + part
+        end
+        routes[:index] = "#{new_path}/#{plural_name}"
+        routes[:show] = "#{new_path}/#{plural_name}/" + '#{' + "#{singular_name}.id}"
+        routes[:create] = "#{new_path}/#{plural_name}"
+        routes[:update] = "#{new_path}/#{plural_name}/" + '#{' + "#{singular_name}.id}"
+        routes[:delete] = "#{new_path}/#{plural_name}/" + '#{item.id}'
+      end
+      routes
     end
   end
 end

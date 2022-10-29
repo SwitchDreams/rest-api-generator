@@ -17,16 +17,11 @@ module RestApiGenerator
 
     def create_service_file
       Rails::Generators.invoke("model", [file_name, build_model_attributes])
-      controller_path = "#{define_scope}/#{file_name.pluralize}_controller.rb"
+      controller_path = "#{define_path}/#{file_name.pluralize}_controller.rb"
       controller_test_path = "#{API_TEST_DIR_PATH}/#{file_name.pluralize}_controller_spec.rb"
-      template define_template, controller_path
-      template "rest_api_spec.rb", controller_test_path
-      if options["father"].empty?
-        routes_string = "resources :#{file_name.pluralize}"
-      else
-        route_namespaced_resources(options['father'], file_name.pluralize)
-      end
-      route routes_string
+      template define_template[:controller], controller_path
+      template define_template[:test], controller_test_path
+      define_routes
     end
 
     private
@@ -37,6 +32,12 @@ module RestApiGenerator
         model_attributes << "#{attribute.name}:#{attribute.type}"
       end
       model_attributes
+    end
+
+
+    def define_path
+      path = define_scope
+      define_father(path)
     end
 
     def define_scope
@@ -52,18 +53,89 @@ module RestApiGenerator
       end
     end
 
-    def define_template
-      if options["scope"].empty?
-        "rest_api_controller.rb"
+    def define_father(path)
+      if options["father"].empty?
+        path
       else
-        "scope_rest_api_controller.rb"
+        path + '/' + options["father"].pluralize.downcase
       end
     end
 
+
+    def define_template
+      templates = {}
+      if options["father"].empty?
+        if options["scope"].empty?
+          templates[:controller] = "rest_api_controller.rb"
+          templates[:test] = "rest_api_spec.rb"
+        else
+          templates[:controller] = "scope_rest_api_controller.rb"
+          templates[:test] = "rest_api_spec.rb"
+        end
+      else
+        if options["scope"].empty?
+          templates[:controller] = "child_api_controller.rb"
+          templates[:test] = "child_api_spec.rb"
+        else
+          templates[:controller] = "scope_child_api_controller.rb"
+          templates[:test] = "child_api_spec.rb"
+        end
+      end
+      templates
+    end
+
+    def define_routes
+      if options["father"].empty? and options['scope'].empty?
+        route "resources :#{file_name.pluralize}"
+      else
+        route_namespaced_resources(options['father'], file_name.pluralize)
+      end
+    end
+
+    def add_tabs(tab_count)
+      tabs = ""
+      for a in 0..tab_count do
+        tabs += "\t"
+      end
+      tabs
+    end
+
     def route_namespaced_resources(father, child)
-      sentinel = 'Rails.application.routes.draw do'
-      gsub_file 'config/routes.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
-        "#{match}\n resources :#{father.downcase.pluralize} do\n   resources :#{child.downcase.pluralize}\n end"
+      namespaces = ""
+      ends = ""
+      tab_ends = ""
+      test = "\t"
+      tab_count = 1
+      if !options['scope'].empty?
+        parts = options["scope"].split(".")
+        for j in 1..parts.count do
+          tab_ends += "\t"
+          test += "\t"
+        end
+        parts.each do |part|
+          namespaces += "namespace '#{part}' do\n#{add_tabs(tab_count)}"
+          ends += "#{tab_ends}end\n"
+          tab_count += 1
+          tab_ends.slice!(-1)
+        end
+      end
+      if !options['father'].empty?
+        if namespaces.empty?
+          sentinel = 'Rails.application.routes.draw do'
+          gsub_file 'config/routes.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
+            "#{match}\n  resources :#{father.downcase.pluralize} do\n    resources :#{child.downcase.pluralize}\n  end"
+          end
+        else
+          sentinel = 'Rails.application.routes.draw do'
+          gsub_file 'config/routes.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
+            "#{match}\n   #{namespaces}resources :#{father.downcase.pluralize} do\n#{test + "\t"}resources :#{child.downcase.pluralize}\n#{test}end\n#{ends}"
+          end
+        end
+      else
+        sentinel = 'Rails.application.routes.draw do'
+        gsub_file 'config/routes.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
+          "#{match}\n  #{namespaces}  resources :#{child.downcase.pluralize}\n#{ends}"
+        end
       end
     end
   end
