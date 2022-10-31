@@ -2,6 +2,7 @@ class <%= class_name.pluralize %>Controller < ApplicationController
   before_action :set_<%= options['father'].downcase.singularize %>
   before_action :set_<%= singular_name %>, only: %i[ show update destroy ]
 
+
   def index
     @<%= plural_name %> = @<%= options['father'].downcase.singularize %>.<%= plural_name %>
     render json: @<%= plural_name %>, status: :ok

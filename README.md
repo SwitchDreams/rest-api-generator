@@ -1,24 +1,40 @@
-# RestApiGenerator
+# rest-api-generator
 
-This gem works as a scaffold to generate an endpoint, it generates:
+This gem helps you to build a Ruby on Rails REST API faster, using a scaffold-like generator that follows the best
+practices.
 
-<ul>
-    <li> Model </li>
-    <li> Migration </li>
-    <li> Routes (resource) </li>
-    <li> Controller </li>
-    <li> Spec test of controller </li>
-    <li> Factory bot </li>
-</ul>
+## How it works?
 
-the commnad its simmilar to the model generator "rails g model model_name attributes", in fact it invokes this generator to genrate the model and migration file
+The gems use vanilla Rails generators n combination with our templates to create all the resources needed to build a
+REST API.
+
+Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices, the controllers are built with:
+
+- We use an error module to centralize error handling, rescuing from a custom and some of ActiveRecord exceptions.
+  The inspiration for this strategy was
+  this [article](https://medium.com/rails-ember-beyond/error-handling-in-rails-the-modular-way-9afcddd2fe1b.)
+
+- For tests, we use RSpec and FactoryBot.
+
+## Next Features
+- Generate nested resource end-points
+- Automated documentation
+- Integration with AVO
+- Pagination
+- Serialization
+- Resource sorting
+- Resource filter
+- Select fields
+- User auth module
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rest-api-generator'
+group :development do
+  gem 'rest-api-generator'
+end
 ```
 
 And then execute:
@@ -30,92 +46,107 @@ Or install it yourself as:
     $ gem install rest-api-generator
 
 ## Requirements
-You need to have installed in your application rspec and factory bot
+
+1. You need to have installed RSpec and FactoryBot in your application.
 
 <ul>
-  <li>Rspec: https://github.com/rspec/rspec-rails</li>
+  <li>RSpec: https://github.com/rspec/rspec-rails</li>
   <li>Factory bot: https://github.com/thoughtbot/factory_bot_rails</li>
 </ul>
 
-then inside your folder app/spec create a new folder called "requests", that's where your tests will be generated
+2. Include in ApplicationController the error handler module:
+
+```ruby
+
+class ApplicationController < ActionController::API
+  include RestApiGenerator::ErrorHandler
+end
+```
+
+This error handler will rescue from: `ActiveRecord::RecordNotFound`
+, `ActiveRecord::ActiveRecordError`, `ActiveRecord::RecordInvalid`, `ActiveModel::ValidationError`
+, `RestApiGenerator::CustomError`.
 
 ## Usage
-### Run command
-   $ rails g generator table_name attributes
 
-************************************************************************************
-#### Model
-this will generate a table and a migration with the table name and it's attribute, it invokes the model generator
+### Generate Resource
 
-************************************************************************************
-#### Endpoint
-It will genrate a controller CarsController that has the methods
+```bash
+$ rails g rest-api-generator:resource table_name attributes
+```
 
-##### Create
-saves instance of generated model to database and return json of instance with status ok
+This command will create:
 
-##### Update
-updates instance of generated modelfrom database and return json of instance with status ok
+- **Model and Migration**: Using rails default model generator
+- **Controller**: A controller with index,show,create,update and destroy methods.
+- **Specs for the created controller**
+- **Factory bot factory for created model**
+- **Routes**: with rails resources
 
-##### Delete
-deletes instance of generated model from database 
+### Example
 
-##### Show
-returns JSON instance of generated model from database with status ok
+```bash
+$ rails g rest-api-generator:resource car name:string color:string
+```
 
-##### Index
-returns JSON instance of generated model from database with status ok
+Will generate following controller and the other files:
 
+```ruby
 
-create and update will have permitted params defined by the attributes defined in the command (except if the attribute is type reference)
-************************************************************************************
-### Spec
+class CarsController < ApplicationController
+  before_action :set_car, only: %i[show update destroy]
 
-##### Create
-checks if instance was saved in database
+  def index
+    @car = Car.all
+    render json: @car, status: :ok
+  end
 
-##### Update
-checks if instance was updated in database ok
+  def show
+    render json: @car, status: :ok
+  end
 
-##### Delete
-checks if instance was deleted from database
+  def create
+    @car = Car.create!(car_params)
+    render json: @car, status: :created
+  end
 
-##### Show
-check if status ok
+  def update
+    @car = Car.update!(car_params)
+    render json: @car, status: :ok
+  end
 
-##### Index
-check if status ok 
+  def destroy
+    @car.destroy!
+  end
 
-************************************************************************************
-### Factory
-The factory will be generated with it's custom generator, defined in the instalation of the factory-bot
+  private
 
-************************************************************************************
-### Routes
-the routes generated are the basic resources routes:
-    table_name: resources
+  def set_car
+    @car = Car.find(params[:id])
+  end
 
-************************************************************************************
-### Scope
-It's possible to add flag in the command to generate an endpoint with a parent
-   $ rails g generator table_name attributes --scope father_name
+  def car_params
+    params.require(:car).permit(:name, :color)
+  end
+end
 
-the only thing this won't genrate it's the nested routes, but it will generate all the previous files mentioned just liek a scaffold
+```
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can
+also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the
+version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version,
+push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rest-api-generator. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/rest-api-generator/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/SwitchDreams/rest-api-generator. This project
+is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to
+the [code of conduct](https://github.com/SwitchDreams/rest-api-generator/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the Rest::Api::Generator project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/rest-api-generator/blob/master/CODE_OF_CONDUCT.md).

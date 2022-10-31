@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require "rails/generators"
+require "rails/generators/active_model"
+require "rails/generators/rails/model/model_generator"
 require "generators/rest_api_generator/helpers"
 module RestApiGenerator
   class ResourceGenerator < Rails::Generators::NamedBase
@@ -25,6 +27,12 @@ module RestApiGenerator
     end
 
     private
+
+    def create_model_files
+      g = Rails::Generators::ModelGenerator.new([file_name, build_model_attributes])
+      g.destination_root = destination_root
+      g.invoke_all
+    end
 
     def build_model_attributes
       model_attributes = []
