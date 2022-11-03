@@ -72,7 +72,7 @@ This error handler will rescue from: `ActiveRecord::RecordNotFound`
 ### Generate Resource
 
 ```bash
-$ rails g rest-api-generator:resource table_name attributes
+$ rails g rest_api_generator:resource table_name attributes
 ```
 
 This command will create:
@@ -86,7 +86,7 @@ This command will create:
 ### Example
 
 ```bash
-$ rails g rest-api-generator:resource car name:string color:string
+$ rails g rest_api_generator:resource car name:string color:string
 ```
 
 Will generate following controller and the other files:
