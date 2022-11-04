@@ -123,12 +123,12 @@ module RestApiGenerator
         if namespaces.empty?
           sentinel = 'Rails.application.routes.draw do'
           gsub_file 'config/routes.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
-            "#{match}\n  resources :#{father.downcase.pluralize} do\n    resources :#{child.downcase.pluralize}\n  end"
+            "#{match}\n  resources :#{father.downcase.pluralize}, module: :#{father.downcase.pluralize} do\n    resources :#{child.downcase.pluralize}\n  end"
           end
         else
           sentinel = 'Rails.application.routes.draw do'
           gsub_file 'config/routes.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
-            "#{match}\n   #{namespaces}resources :#{father.downcase.pluralize} do\n#{test + "\t"}resources :#{child.downcase.pluralize}\n#{test}end\n#{ends}"
+            "#{match}\n   #{namespaces}resources :#{father.downcase.pluralize},  module: :#{father.downcase.pluralize} do\n#{test + "\t"}resources :#{child.downcase.pluralize}\n#{test}end\n#{ends}"
           end
         end
       else

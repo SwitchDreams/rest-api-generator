@@ -50,7 +50,7 @@ module RestApiGenerator
         routes[:delete] = "#{new_path}/#{options['father'].downcase.pluralize}/" '#{' + "#{options['father'].singularize.downcase}.id}/"+"#{plural_name}/" + '#{item.id}'
       else
         routes[:index] = "/#{options['father'].downcase.pluralize}/"+'#{' + "#{options['father'].singularize.downcase}.id}/"+"#{plural_name}/"
-        routes[:show] = "/#{options['father'].downcase.pluralize}/"+ '#{' + "#{soptions['father'].singularize.downcase}.id}/"+"#{plural_name}/" + '#{' + "#{singular_name}.id}"
+        routes[:show] = "/#{options['father'].downcase.pluralize}/"+ '#{' + "#{options['father'].singularize.downcase}.id}/"+"#{plural_name}/" + '#{' + "#{singular_name}.id}"
         routes[:create] = "/#{options['father'].downcase.pluralize}/"+'#{' + "#{options['father'].singularize.downcase}.id}/"+"#{plural_name}/"
         routes[:update] = "/#{options['father'].downcase.pluralize}/"+'#{' + "#{options['father'].singularize.downcase}.id}/"+"#{plural_name}/" + '#{' + "#{singular_name}.id}"
         routes[:delete] = "/#{options['father'].downcase.pluralize}/"'#{' + "#{options['father'].singularize.downcase}.id}/"+"#{plural_name}/" + '#{item.id}'
