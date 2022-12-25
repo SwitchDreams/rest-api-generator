@@ -38,6 +38,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "railties", ">= 5.0.0"
 
   spec.add_development_dependency 'ammeter',  '~> 1.1.5'
+  spec.add_development_dependency 'rails', '>= 6.0'
   spec.add_development_dependency 'rspec-rails',  '~> 6.0.0'
   spec.add_development_dependency 'sqlite3'
 
