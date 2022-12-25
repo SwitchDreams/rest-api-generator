@@ -172,7 +172,7 @@ GEM
       rspec-mocks (~> 3.11)
       rspec-support (~> 3.11)
     rspec-support (3.12.0)
-    rubocop (1.41.1)
+    rubocop (1.40.0)
       json (~> 2.3)
       parallel (~> 1.10)
       parser (>= 3.1.2.1)
@@ -184,8 +184,25 @@ GEM
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.24.0)
       parser (>= 3.1.1.0)
+    rubocop-performance (1.15.2)
+      rubocop (>= 1.7.0, < 2.0)
+      rubocop-ast (>= 0.4.0)
+    rubocop-rails (2.17.4)
+      activesupport (>= 4.2.0)
+      rack (>= 1.1)
+      rubocop (>= 1.33.0, < 2.0)
+    rubocop-rspec (2.16.0)
+      rubocop (~> 1.33)
+    rubocop-shopify (2.10.1)
+      rubocop (~> 1.35)
     ruby-progressbar (1.11.0)
     sqlite3 (1.5.4-x86_64-linux)
+    switchcop (0.1.2)
+      rubocop (~> 1.40.0)
+      rubocop-performance (~> 1.15.1)
+      rubocop-rails (~> 2.17.3)
+      rubocop-rspec (~> 2.16.0)
+      rubocop-shopify (~> 2.10.1)
     thor (1.2.1)
     timeout (0.3.1)
     tzinfo (2.0.5)
@@ -206,8 +223,8 @@ DEPENDENCIES
   rest-api-generator!
   rspec (~> 3.0)
   rspec-rails (~> 6.0.0)
-  rubocop (~> 1.21)
   sqlite3
+  switchcop
 
 BUNDLED WITH
    2.3.3

@@ -1,17 +1,13 @@
+inherit_gem:
+  switchcop: rubocop.yml
+
 AllCops:
   NewCops: enable
   TargetRubyVersion: 2.6
   Exclude:
     - 'rest-api-generator.gemspec'
     - 'tmp/**/*'
-
-Style/StringLiterals:
-  Enabled: true
-  EnforcedStyle: double_quotes
-
-Style/StringLiteralsInInterpolation:
-  Enabled: true
-  EnforcedStyle: double_quotes
+    - '**/*/bundle'
 
 Style/Documentation:
   Enabled: false

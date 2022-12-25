@@ -7,7 +7,7 @@ module RestApiGenerator
         {
           status: status,
           error: error,
-          message: message
+          message: message,
         }.as_json
       end
     end

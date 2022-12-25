@@ -5,11 +5,11 @@ require "rest_api_generator"
 
 DEFAULT_DESTINATION_PATH = File.expand_path("../tmp", __dir__)
 
-ENV['RAILS_ENV'] = 'test'
+ENV["RAILS_ENV"] = "test"
 
-require_relative '../spec/dummy/config/environment'
+require_relative "../spec/dummy/config/environment"
 
-ENV['RAILS_ROOT'] ||= "#{File.dirname(__FILE__)}../../../spec/dummy"
+ENV["RAILS_ROOT"] ||= "#{File.dirname(__FILE__)}../../../spec/dummy"
 
 require "rspec/rails"
 require "ammeter/init"

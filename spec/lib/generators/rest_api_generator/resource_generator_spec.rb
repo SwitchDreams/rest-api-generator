@@ -8,7 +8,7 @@ RSpec.describe RestApiGenerator::ResourceGenerator, type: :generator do
   setup_default_destination
 
   before do
-    run_generator %w[user]
+    run_generator ["user"]
   end
 
   describe "controller file" do
@@ -36,12 +36,12 @@ RSpec.describe RestApiGenerator::ResourceGenerator, type: :generator do
   end
 
   describe "routes" do
-    subject { file("config/routes.rb") }
+    subject(:route_file) { file("config/routes.rb") }
 
     it { is_expected.to exist }
 
     it "has routes defined to the resource" do
-      is_expected.to contain("resources :users")
+      expect(route_file).to contain("resources :users")
     end
   end
 end
