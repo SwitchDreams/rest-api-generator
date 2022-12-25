@@ -2,10 +2,9 @@
 
 module RestApiGenerator
   class ResourceController < ApplicationController
-    before_action :set_resource, only: %i[show update destroy]
+    before_action :set_resource, only: [:show, :update, :destroy]
 
     def index
-      puts resource_class
       @resources = resource_class.all
       render json: @resources, status: :ok
     end
@@ -48,7 +47,7 @@ module RestApiGenerator
 
     # UsersController => User
     def resource_by_controller_name(controller_name = self.class.to_s)
-      controller_name.split(Regexp.union(%w[Controller ::]))[-1].singularize.constantize
+      controller_name.split(Regexp.union(["Controller", "::"]))[-1].singularize.constantize
     end
 
     def record_id
