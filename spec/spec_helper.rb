@@ -5,23 +5,15 @@ require "rest_api_generator"
 
 DEFAULT_DESTINATION_PATH = File.expand_path("../tmp", __dir__)
 
-module RestApiGenerator
-  class Application < ::Rails::Application
-    config.secret_key_base = "ASecretString"
+ENV['RAILS_ENV'] = 'test'
 
-    config.generators do |g|
-      g.orm :active_record
-      g.test_framework nil
-    end
-  end
-end
+require_relative '../spec/dummy/config/environment'
 
-ActiveRecord::Base.establish_connection(
-  adapter: "sqlite3",
-  database: ":memory:"
-)
+ENV['RAILS_ROOT'] ||= "#{File.dirname(__FILE__)}../../../spec/dummy"
+
 require "rspec/rails"
 require "ammeter/init"
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
