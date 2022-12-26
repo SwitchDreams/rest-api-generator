@@ -16,14 +16,18 @@ Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices,
 
 - For tests, we use RSpec and FactoryBot.
 
+## Current Features
+- Automatic generation for a rest api crud
+- Modular error handler
+
 ## Next Features
-- Generate nested resource end-points
-- Automated documentation
+- Generate nested resource end-points 🚧
+- Automated documentation 🚧 https://github.com/SwitchDreams/rest-api-generator/issues/12
+- Serialization https://github.com/SwitchDreams/rest-api-generator/issues/14
+- Resource sorting https://github.com/SwitchDreams/rest-api-generator/issues/11
+- Resource filter https://github.com/SwitchDreams/rest-api-generator/issues/13
+- Pagination https://github.com/SwitchDreams/rest-api-generator/issues/15
 - Integration with AVO
-- Pagination
-- Serialization
-- Resource sorting
-- Resource filter
 - Select fields
 - User auth module
 
@@ -32,9 +36,8 @@ Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices,
 Add this line to your application's Gemfile:
 
 ```ruby
-group :development do
-  gem 'rest-api-generator'
-end
+# Build a Ruby on Rails REST API faster
+gem 'rest-api-generator'
 ```
 
 And then execute:
