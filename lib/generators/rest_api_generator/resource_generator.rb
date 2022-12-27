@@ -10,6 +10,7 @@ module RestApiGenerator
     source_root File.expand_path("templates", __dir__)
 
     argument :attributes, type: :array, default: [], banner: "field[:type][:index] field[:type][:index]"
+    class_option :eject, type: :boolean, default: false
     class_option :scope, type: :string, default: ""
 
     API_CONTROLLER_DIR_PATH = "app/controllers"
@@ -17,23 +18,37 @@ module RestApiGenerator
 
     def create_service_file
       create_model_files
-      if options["scope"].empty?
-        controller_path = "#{API_CONTROLLER_DIR_PATH}/#{file_name.pluralize}_controller.rb"
-        controller_test_path = "#{API_TEST_DIR_PATH}/#{file_name.pluralize}_controller_spec.rb"
-        template "rest_api_controller.rb", controller_path
-        template "rest_api_spec.rb", controller_test_path
-        routes_string = "resources :#{file_name.pluralize}"
-        route routes_string
-      else
-        scope_path = options["scope"].pluralize
-        controller_path = "#{API_CONTROLLER_DIR_PATH}/#{scope_path}/#{file_name.pluralize}_controller.rb"
-        controller_test_path = "#{API_TEST_DIR_PATH}/#{scope_path}/#{file_name.pluralize}_controller_spec.rb"
-        template "child_api_controller.rb", controller_path
-        template "child_api_spec.rb", controller_test_path
-      end
+
+      # Create controller and specs
+      scope_path = options["scope"].present? ? "/#{options["scope"].pluralize}" : ""
+      controller_path = "#{API_CONTROLLER_DIR_PATH}#{scope_path}/#{file_name.pluralize}_controller.rb"
+      controller_test_path = "#{API_TEST_DIR_PATH}#{scope_path}/#{file_name.pluralize}_controller_spec.rb"
+
+      template controller_template, controller_path
+      template spec_controller_template, controller_test_path
+
+      route "resources :#{file_name.pluralize}"
     end
 
     private
+
+    def controller_template
+      if options["eject"]
+        "implicit_resource_controller.rb"
+      elsif options["scope"].present?
+        "child_api_controller.rb"
+      else
+        "rest_api_controller.rb"
+      end
+    end
+
+    def spec_controller_template
+      if options["scope"].present?
+        "child_api_spec.rb"
+      else
+        "rest_api_spec.rb"
+      end
+    end
 
     def create_model_files
       g = Rails::Generators::ModelGenerator.new([file_name, build_model_attributes])
