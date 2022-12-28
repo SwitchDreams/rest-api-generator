@@ -10,6 +10,7 @@ module RestApiGenerator
 
     def index
       @resources = resource_class.all
+      @resources = @resources.filter_resource(params.slice(*resource_class.filter_scopes))
       @resources = @resources.order(ordering_params(params[:sort])) if params[:sort]
       render json: @resources, status: :ok
     end
