@@ -1,11 +1,16 @@
 # frozen_string_literal: true
 
+require "rest_api_generator/orderable"
+
 module RestApiGenerator
   class ResourceController < ApplicationController
+    include Orderable
+
     before_action :set_resource, only: [:show, :update, :destroy]
 
     def index
       @resources = resource_class.all
+      @resources = @resources.order(ordering_params(params[:sort])) if params[:sort]
       render json: @resources, status: :ok
     end
 
