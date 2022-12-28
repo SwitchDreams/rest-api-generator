@@ -5,7 +5,7 @@ practices.
 
 ## How it works?
 
-The gems use vanilla Rails generators n combination with our templates to create all the resources needed to build a
+The gems use vanilla Rails generators in combination with our templates to create all the resources needed to build a
 REST API.
 
 Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices, the controllers are built with:
@@ -17,10 +17,12 @@ Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices,
 - For tests, we use RSpec and FactoryBot.
 
 ## Current Features
+
 - Automatic generation for a rest api crud
 - Modular error handler
 
 ## Next Features
+
 - Generate nested resource end-points 🚧
 - Automated documentation 🚧 https://github.com/SwitchDreams/rest-api-generator/issues/12
 - Serialization https://github.com/SwitchDreams/rest-api-generator/issues/14
@@ -81,7 +83,8 @@ $ rails g rest_api_generator:resource table_name attributes
 This command will create:
 
 - **Model and Migration**: Using rails default model generator
-- **Controller**: A controller with index,show,create,update and destroy methods.
+- **Controller**: A controller that implementes CRUD by inheritance of `RestApiGenerator::ResourceController`, or you can use eject option for create a controller
+  that implements index, show, create, update and destroy methods.
 - **Specs for the created controller**
 - **Factory bot factory for created model**
 - **Routes**: with rails resources
@@ -95,7 +98,18 @@ $ rails g rest_api_generator:resource car name:string color:string
 Will generate following controller and the other files:
 
 ```ruby
+class CarsController < RestApiGenerator::ResourceController
+end
+```
 
+### Example with eject
+Or you can use the `eject` option for create the controller with the implemented methods:
+
+```bash
+rails g rest_api_generator:resource car name:string color:string --eject true
+```
+
+```ruby
 class CarsController < ApplicationController
   before_action :set_car, only: %i[show update destroy]
 
