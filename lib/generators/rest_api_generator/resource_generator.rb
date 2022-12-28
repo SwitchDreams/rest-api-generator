@@ -14,7 +14,6 @@ module RestApiGenerator
     class_option :scope, type: :string, default: ""
     class_option :father, type: :string, default: ""
 
-
     API_CONTROLLER_DIR_PATH = "app/controllers"
     API_TEST_DIR_PATH = "spec/requests"
 
@@ -42,6 +41,7 @@ module RestApiGenerator
       else
         "implicit_resource_controller.rb"
       end
+    end
 
     def spec_controller_template
       if options["scope"].present?
@@ -65,7 +65,6 @@ module RestApiGenerator
       model_attributes
     end
 
-
     def define_path
       path = define_scope
       define_father(path)
@@ -78,7 +77,7 @@ module RestApiGenerator
         parts = options["scope"].split(".")
         new_path = ""
         parts.each do |part|
-          new_path += '/' + part
+          new_path += "/" + part
         end
         API_CONTROLLER_DIR_PATH + new_path
       end
@@ -88,10 +87,9 @@ module RestApiGenerator
       if options["father"].empty?
         path
       else
-        path + '/' + options["father"].pluralize.downcase
+        path + "/" + options["father"].pluralize.downcase
       end
     end
-
 
     def define_template
       templates = {}
@@ -103,23 +101,21 @@ module RestApiGenerator
           templates[:controller] = "scope_rest_api_controller.rb"
           templates[:test] = "rest_api_spec.rb"
         end
+      elsif options["scope"].empty?
+        templates[:controller] = "child_api_controller.rb"
+        templates[:test] = "child_api_spec.rb"
       else
-        if options["scope"].empty?
-          templates[:controller] = "child_api_controller.rb"
-          templates[:test] = "child_api_spec.rb"
-        else
-          templates[:controller] = "scope_child_api_controller.rb"
-          templates[:test] = "child_api_spec.rb"
-        end
+        templates[:controller] = "scope_child_api_controller.rb"
+        templates[:test] = "child_api_spec.rb"
       end
       templates
     end
 
     def define_routes
-      if options["father"].empty? and options['scope'].empty?
+      if options["father"].empty? and options["scope"].empty?
         route "resources :#{file_name.pluralize}"
       else
-        route_namespaced_resources(options['father'], file_name.pluralize)
+        route_namespaced_resources(options["father"], file_name.pluralize)
       end
     end
 
@@ -137,7 +133,7 @@ module RestApiGenerator
       tab_ends = ""
       test = "\t"
       tab_count = 1
-      if !options['scope'].empty?
+      unless options["scope"].empty?
         parts = options["scope"].split(".")
         for j in 1..parts.count do
           tab_ends += "\t"
@@ -150,21 +146,21 @@ module RestApiGenerator
           tab_ends.slice!(-1)
         end
       end
-      if !options['father'].empty?
+      if !options["father"].empty?
         if namespaces.empty?
-          sentinel = 'Rails.application.routes.draw do'
-          gsub_file 'config/routes.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
+          sentinel = "Rails.application.routes.draw do"
+          gsub_file "config/routes.rb", /(#{Regexp.escape(sentinel)})/mi do |match|
             "#{match}\n  resources :#{father.downcase.pluralize}, module: :#{father.downcase.pluralize} do\n    resources :#{child.downcase.pluralize}\n  end"
           end
         else
-          sentinel = 'Rails.application.routes.draw do'
-          gsub_file 'config/routes.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
+          sentinel = "Rails.application.routes.draw do"
+          gsub_file "config/routes.rb", /(#{Regexp.escape(sentinel)})/mi do |match|
             "#{match}\n   #{namespaces}resources :#{father.downcase.pluralize},  module: :#{father.downcase.pluralize} do\n#{test + "\t"}resources :#{child.downcase.pluralize}\n#{test}end\n#{ends}"
           end
         end
       else
-        sentinel = 'Rails.application.routes.draw do'
-        gsub_file 'config/routes.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
+        sentinel = "Rails.application.routes.draw do"
+        gsub_file "config/routes.rb", /(#{Regexp.escape(sentinel)})/mi do |match|
           "#{match}\n  #{namespaces}  resources :#{child.downcase.pluralize}\n#{ends}"
         end
       end
