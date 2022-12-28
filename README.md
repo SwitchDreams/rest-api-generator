@@ -18,16 +18,17 @@ Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices,
 
 ## Current Features
 
-- Automatic generation for a rest api crud
+- [Automatic rest api crud generation](#example)
 - Modular error handler
+- [Resource ordering](#ordering)
+- [Resource filter](#filtering)
 
 ## Next Features
 
 - Generate nested resource end-points 🚧
 - Automated documentation 🚧 https://github.com/SwitchDreams/rest-api-generator/issues/12
 - Serialization https://github.com/SwitchDreams/rest-api-generator/issues/14
-- Resource sorting https://github.com/SwitchDreams/rest-api-generator/issues/11
-- Resource filter https://github.com/SwitchDreams/rest-api-generator/issues/13
+  https://github.com/SwitchDreams/rest-api-generator/issues/11
 - Pagination https://github.com/SwitchDreams/rest-api-generator/issues/15
 - Integration with AVO
 - Select fields
@@ -83,7 +84,8 @@ $ rails g rest_api_generator:resource table_name attributes
 This command will create:
 
 - **Model and Migration**: Using rails default model generator
-- **Controller**: A controller that implementes CRUD by inheritance of `RestApiGenerator::ResourceController`, or you can use eject option for create a controller
+- **Controller**: A controller that implementes CRUD by inheritance of `RestApiGenerator::ResourceController`, or you
+  can use eject option for create a controller
   that implements index, show, create, update and destroy methods.
 - **Specs for the created controller**
 - **Factory bot factory for created model**
@@ -98,11 +100,16 @@ $ rails g rest_api_generator:resource car name:string color:string
 Will generate following controller and the other files:
 
 ```ruby
+
 class CarsController < RestApiGenerator::ResourceController
 end
 ```
 
+For a better experience you can override some methods from the
+[default controller](https://github.com/SwitchDreams/rest-api-generator/blob/main/lib/rest_api_generator/resource_controller.rb)
+
 ### Example with eject
+
 Or you can use the `eject` option for create the controller with the implemented methods:
 
 ```bash
@@ -110,6 +117,7 @@ rails g rest_api_generator:resource car name:string color:string --eject true
 ```
 
 ```ruby
+
 class CarsController < ApplicationController
   before_action :set_car, only: %i[show update destroy]
 
@@ -148,6 +156,36 @@ class CarsController < ApplicationController
 end
 
 ```
+
+### Features
+
+#### Ordering
+
+For ordering use this format:
+
+- Ordering asc: `GET /cars?sort=+name or GET /cars?sort=name`
+- Ordering desc: `GET /card?sort=-name`
+
+By default, every resource column can be the key for ordering.
+
+#### Filtering
+
+For filter is needed to add some scopes in Model file, example:
+
+```ruby
+# app/models/car.rb
+
+class Car < ApplicationRecord
+  include RestApiGenerator::Filterable
+
+  filter_scope :filter_by_color, ->(color) { where(color: color) }
+  filter_scope :filter_by_name, ->(name) { where("name LIKE ?", "%#{name}%") }
+end
+```
+
+And It's done, you can filter your index end-point:
+
+- `GET /cars?color=blue or GET /cars?color=red&name=Ferrari`
 
 ## Development
 
