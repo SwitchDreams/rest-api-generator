@@ -5,7 +5,7 @@ practices.
 
 ## How it works?
 
-The gems use vanilla Rails generators n combination with our templates to create all the resources needed to build a
+The gems use vanilla Rails generators in combination with our templates to create all the resources needed to build a
 REST API.
 
 Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices, the controllers are built with:
@@ -16,14 +16,21 @@ Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices,
 
 - For tests, we use RSpec and FactoryBot.
 
+## Current Features
+
+- [Automatic rest api crud generation](#example)
+- Modular error handler
+- [Resource ordering](#ordering)
+- [Resource filter](#filtering)
+
 ## Next Features
-- Generate nested resource end-points
-- Automated documentation
+
+- Generate nested resource end-points 🚧
+- Automated documentation 🚧 https://github.com/SwitchDreams/rest-api-generator/issues/12
+- Serialization https://github.com/SwitchDreams/rest-api-generator/issues/14
+  https://github.com/SwitchDreams/rest-api-generator/issues/11
+- Pagination https://github.com/SwitchDreams/rest-api-generator/issues/15
 - Integration with AVO
-- Pagination
-- Serialization
-- Resource sorting
-- Resource filter
 - Select fields
 - User auth module
 
@@ -32,9 +39,8 @@ Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices,
 Add this line to your application's Gemfile:
 
 ```ruby
-group :development do
-  gem 'rest-api-generator'
-end
+# Build a Ruby on Rails REST API faster
+gem 'rest-api-generator'
 ```
 
 And then execute:
@@ -72,13 +78,15 @@ This error handler will rescue from: `ActiveRecord::RecordNotFound`
 ### Generate Resource
 
 ```bash
-$ rails g rest-api-generator:resource table_name attributes
+$ rails g rest_api_generator:resource table_name attributes
 ```
 
 This command will create:
 
 - **Model and Migration**: Using rails default model generator
-- **Controller**: A controller with index,show,create,update and destroy methods.
+- **Controller**: A controller that implementes CRUD by inheritance of `RestApiGenerator::ResourceController`, or you
+  can use eject option for create a controller
+  that implements index, show, create, update and destroy methods.
 - **Specs for the created controller**
 - **Factory bot factory for created model**
 - **Routes**: with rails resources
@@ -86,10 +94,27 @@ This command will create:
 ### Example
 
 ```bash
-$ rails g rest-api-generator:resource car name:string color:string
+$ rails g rest_api_generator:resource car name:string color:string
 ```
 
 Will generate following controller and the other files:
+
+```ruby
+
+class CarsController < RestApiGenerator::ResourceController
+end
+```
+
+For a better experience you can override some methods from the
+[default controller](https://github.com/SwitchDreams/rest-api-generator/blob/main/lib/rest_api_generator/resource_controller.rb)
+
+### Example with eject
+
+Or you can use the `eject` option for create the controller with the implemented methods:
+
+```bash
+rails g rest_api_generator:resource car name:string color:string --eject true
+```
 
 ```ruby
 
@@ -131,6 +156,36 @@ class CarsController < ApplicationController
 end
 
 ```
+
+### Features
+
+#### Ordering
+
+For ordering use this format:
+
+- Ordering asc: `GET /cars?sort=+name or GET /cars?sort=name`
+- Ordering desc: `GET /card?sort=-name`
+
+By default, every resource column can be the key for ordering.
+
+#### Filtering
+
+For filter is needed to add some scopes in Model file, example:
+
+```ruby
+# app/models/car.rb
+
+class Car < ApplicationRecord
+  include RestApiGenerator::Filterable
+
+  filter_scope :filter_by_color, ->(color) { where(color: color) }
+  filter_scope :filter_by_name, ->(name) { where("name LIKE ?", "%#{name}%") }
+end
+```
+
+And It's done, you can filter your index end-point:
+
+- `GET /cars?color=blue or GET /cars?color=red&name=Ferrari`
 
 ## Development
 

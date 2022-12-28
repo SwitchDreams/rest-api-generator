@@ -1,0 +1,27 @@
+name: CI
+env:
+  RUBY_VERSION: 3.1
+
+on:
+  pull_request:
+    branches:
+      - '**'
+  push:
+    branches:
+      - main
+
+jobs:
+  rubocop:
+    name: Rubocop
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+
+      - name: Install gems
+        run: bundle install
+
+      - name: Check code
+        run: rubocop

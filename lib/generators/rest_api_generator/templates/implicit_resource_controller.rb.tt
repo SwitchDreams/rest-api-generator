@@ -1,0 +1,2 @@
+class <%= class_name.pluralize %>Controller < RestApiGenerator::ResourceController
+end
