@@ -20,12 +20,12 @@ module RestApiGenerator
     end
 
     def create
-      @resource = resource_class.create!(resource_params)
+      @resource = resource_class.create!(resource_created_params)
       render json: @resource, status: :created
     end
 
     def update
-      @resource.update!(resource_params)
+      @resource.update!(resource_updated_params)
       render json: @resource, status: :ok
     end
 
@@ -37,6 +37,14 @@ module RestApiGenerator
 
     def resource_class
       resource_by_controller_name
+    end
+
+    def resource_created_params
+      resource_params
+    end
+
+    def resource_updated_params
+      resource_params
     end
 
     def resource_params
