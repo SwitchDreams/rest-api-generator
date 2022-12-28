@@ -13,6 +13,7 @@ ENV["RAILS_ROOT"] ||= "#{File.dirname(__FILE__)}../../../spec/dummy"
 
 require "rspec/rails"
 require "ammeter/init"
+require "database_cleaner"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -23,5 +24,22 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before do
+    DatabaseCleaner.start
+  end
+
+  config.after do
+    DatabaseCleaner.clean
+  end
+
+  config.after(:suite) do
+    FileUtils.rm_rf(File.expand_path("../test.sqlite3", __FILE__))
   end
 end

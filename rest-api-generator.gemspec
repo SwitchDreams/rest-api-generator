@@ -41,5 +41,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rails', '>= 6.0'
   spec.add_development_dependency 'rspec-rails',  '~> 6.0.0'
   spec.add_development_dependency 'sqlite3'
+  spec.add_development_dependency 'database_cleaner'
 
 end
