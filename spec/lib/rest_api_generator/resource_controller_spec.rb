@@ -68,4 +68,15 @@ RSpec.describe "ResourceController", type: :request do
       end
     end
   end
+
+  describe "Filtering" do
+    context "when filter_by side credit" do
+      it "returns only the element with side" do
+        credit_transaction = Transaction.create!(amount: 20, side: "credit")
+        Transaction.create!(amount: 10, side: "debit")
+        get "/transactions?side=credit"
+        expect(JSON.parse(response.body)[0]["id"]).to eq(credit_transaction.id)
+      end
+    end
+  end
 end
