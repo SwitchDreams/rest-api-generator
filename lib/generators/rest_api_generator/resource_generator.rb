@@ -34,11 +34,11 @@ module RestApiGenerator
 
     def controller_template
       if options["eject"]
-        "implicit_resource_controller.rb"
+        "rest_api_controller.rb"
       elsif options["scope"].present?
         "child_api_controller.rb"
       else
-        "rest_api_controller.rb"
+        "implicit_resource_controller.rb"
       end
     end
 
