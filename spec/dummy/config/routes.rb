@@ -2,4 +2,5 @@
 
 Rails.application.routes.draw do
   resources :transactions
+  resources :cars
 end

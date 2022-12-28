@@ -70,6 +70,11 @@ RSpec.describe "ResourceController", type: :request do
   end
 
   describe "Filtering" do
+    it "works fine when model does not have included Filterable" do
+      get "/cars"
+      expect(response).to have_http_status(:success)
+    end
+
     context "when filter_by side credit" do
       it "returns only the element with side" do
         credit_transaction = Transaction.create!(amount: 20, side: "credit")
