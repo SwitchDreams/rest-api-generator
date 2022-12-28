@@ -80,50 +80,5 @@ module RestApiGenerator
       end
       model_attributes
     end
-
-    def add_tabs(tab_count)
-      tabs = ""
-      (0..tab_count).each do |_|
-        tabs += "\t"
-      end
-      tabs
-    end
-
-    def route_namespaced_resources(father, child)
-      namespaces = ""
-      ends = ""
-      tab_ends = ""
-      test = "\t"
-      tab_count = 1
-      unless options["scope"].empty?
-        parts = options["scope"].split(".")
-        (1..parts.count).each do |_j|
-          tab_ends += "\t"
-          test += "\t"
-        end
-        parts.each do |part|
-          namespaces += "namespace '#{part}' do\n#{add_tabs(tab_count)}"
-          ends += "#{tab_ends}end\n"
-          tab_count += 1
-          tab_ends.slice!(-1)
-        end
-      end
-      sentinel = "Rails.application.routes.draw do"
-      if !options["father"].empty?
-        if namespaces.empty?
-          gsub_file "config/routes.rb", /(#{Regexp.escape(sentinel)})/mi do |match|
-            "#{match}\n  resources :#{father.downcase.pluralize}, module: :#{father.downcase.pluralize} do\n    resources :#{child.downcase.pluralize}\n  end"
-          end
-        else
-          gsub_file "config/routes.rb", /(#{Regexp.escape(sentinel)})/mi do |match|
-            "#{match}\n   #{namespaces}resources :#{father.downcase.pluralize},  module: :#{father.downcase.pluralize} do\n#{test + "\t"}resources :#{child.downcase.pluralize}\n#{test}end\n#{ends}"
-          end
-        end
-      else
-        gsub_file "config/routes.rb", /(#{Regexp.escape(sentinel)})/mi do |match|
-          "#{match}\n  #{namespaces}  resources :#{child.downcase.pluralize}\n#{ends}"
-        end
-      end
-    end
   end
 end
