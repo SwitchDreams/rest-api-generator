@@ -47,4 +47,25 @@ RSpec.describe "ResourceController", type: :request do
       expect { delete "/transactions/#{t.id}" }.to change(Transaction, :count).by(-1)
     end
   end
+
+  describe "Ordering/Sorting" do
+    context "when sort asc by amount" do
+      it "returns first the transaction with lower amount" do
+        Transaction.create!(amount: 20)
+        t_low = Transaction.create!(amount: 10)
+        get "/transactions?sort=+amount"
+        expect(JSON.parse(response.body)[0]["id"]).to eq(t_low.id)
+      end
+    end
+
+    context "when sort desc by amount" do
+      it "returns first the transaction with max amount" do
+        Transaction.create!(amount: 10)
+        t_max = Transaction.create!(amount: 20)
+
+        get "/transactions?sort=-amount"
+        expect(JSON.parse(response.body)[0]["id"]).to eq(t_max.id)
+      end
+    end
+  end
 end
