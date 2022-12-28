@@ -1,0 +1,4 @@
+<% scope_namespacing do -%>
+class <%= class_name.pluralize %>Controller < RestApiGenerator::ResourceController
+end
+<% end -%>

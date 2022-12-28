@@ -33,14 +33,14 @@ module RestApiGenerator
     private
 
     def scope_path
-      return "" if options["scope"].blank?
+      return "" if options["scope"].blank? && options["father"].blank?
 
-      "/" + options["scope"].downcase.split("::").join("/")
+      "/" + options["scope"].downcase.split("::").join("/") + options["father"].downcase.split("::").join("/")
     end
 
     def scope_namespacing(&block)
       content = capture(&block)
-      content = wrap_with_scope(content) if options["scope"].present?
+      content = wrap_with_scope(content) if options["scope"].present? || options["father"].present?
       concat(content)
     end
 
@@ -81,43 +81,9 @@ module RestApiGenerator
       model_attributes
     end
 
-    def define_path
-      path = define_scope
-      define_father(path)
-    end
-
-    def define_scope
-      if options["scope"].empty?
-        API_CONTROLLER_DIR_PATH
-      else
-        parts = options["scope"].split(".")
-        new_path = ""
-        parts.each do |part|
-          new_path += "/" + part
-        end
-        API_CONTROLLER_DIR_PATH + new_path
-      end
-    end
-
-    def define_father(path)
-      if options["father"].empty?
-        path
-      else
-        path + "/" + options["father"].pluralize.downcase
-      end
-    end
-
-    def define_routes
-      if options["father"].empty? and options["scope"].empty?
-        route "resources :#{file_name.pluralize}"
-      else
-        route_namespaced_resources(options["father"], file_name.pluralize)
-      end
-    end
-
     def add_tabs(tab_count)
       tabs = ""
-      for a in 0..tab_count do
+      (0..tab_count).each do |_|
         tabs += "\t"
       end
       tabs
@@ -131,7 +97,7 @@ module RestApiGenerator
       tab_count = 1
       unless options["scope"].empty?
         parts = options["scope"].split(".")
-        for j in 1..parts.count do
+        (1..parts.count).each do |_j|
           tab_ends += "\t"
           test += "\t"
         end
@@ -142,20 +108,18 @@ module RestApiGenerator
           tab_ends.slice!(-1)
         end
       end
+      sentinel = "Rails.application.routes.draw do"
       if !options["father"].empty?
         if namespaces.empty?
-          sentinel = "Rails.application.routes.draw do"
           gsub_file "config/routes.rb", /(#{Regexp.escape(sentinel)})/mi do |match|
             "#{match}\n  resources :#{father.downcase.pluralize}, module: :#{father.downcase.pluralize} do\n    resources :#{child.downcase.pluralize}\n  end"
           end
         else
-          sentinel = "Rails.application.routes.draw do"
           gsub_file "config/routes.rb", /(#{Regexp.escape(sentinel)})/mi do |match|
             "#{match}\n   #{namespaces}resources :#{father.downcase.pluralize},  module: :#{father.downcase.pluralize} do\n#{test + "\t"}resources :#{child.downcase.pluralize}\n#{test}end\n#{ends}"
           end
         end
       else
-        sentinel = "Rails.application.routes.draw do"
         gsub_file "config/routes.rb", /(#{Regexp.escape(sentinel)})/mi do |match|
           "#{match}\n  #{namespaces}  resources :#{child.downcase.pluralize}\n#{ends}"
         end
