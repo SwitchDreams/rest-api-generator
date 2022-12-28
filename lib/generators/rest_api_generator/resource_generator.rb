@@ -21,7 +21,6 @@ module RestApiGenerator
       create_model_files
 
       # Create controller and specs
-      scope_path = options["scope"].present? ? "/#{options["scope"].pluralize}" : ""
       controller_path = "#{API_CONTROLLER_DIR_PATH}#{scope_path}/#{file_name.pluralize}_controller.rb"
       controller_test_path = "#{API_TEST_DIR_PATH}#{scope_path}/#{file_name.pluralize}_controller_spec.rb"
 
@@ -33,10 +32,27 @@ module RestApiGenerator
 
     private
 
+    def scope_path
+      return "" if options["scope"].blank?
+
+      "/" + options["scope"].downcase.split("::").join("/")
+    end
+
+    def scope_namespacing(&block)
+      content = capture(&block)
+      content = wrap_with_scope(content) if options["scope"].present?
+      concat(content)
+    end
+
+    def wrap_with_scope(content)
+      content = indent(content).chomp
+      "module #{options["scope"]}\n#{content}\nend\n"
+    end
+
     def controller_template
       if options["eject"]
         "rest_api_controller.rb"
-      elsif options["scope"].present?
+      elsif options["father"].present?
         "child_api_controller.rb"
       else
         "implicit_resource_controller.rb"
@@ -44,7 +60,7 @@ module RestApiGenerator
     end
 
     def spec_controller_template
-      if options["scope"].present?
+      if options["father"].present?
         "child_api_spec.rb"
       else
         "rest_api_spec.rb"
@@ -89,26 +105,6 @@ module RestApiGenerator
       else
         path + "/" + options["father"].pluralize.downcase
       end
-    end
-
-    def define_template
-      templates = {}
-      if options["father"].empty?
-        if options["scope"].empty?
-          templates[:controller] = "rest_api_controller.rb"
-          templates[:test] = "rest_api_spec.rb"
-        else
-          templates[:controller] = "scope_rest_api_controller.rb"
-          templates[:test] = "rest_api_spec.rb"
-        end
-      elsif options["scope"].empty?
-        templates[:controller] = "child_api_controller.rb"
-        templates[:test] = "child_api_spec.rb"
-      else
-        templates[:controller] = "scope_child_api_controller.rb"
-        templates[:test] = "child_api_spec.rb"
-      end
-      templates
     end
 
     def define_routes
