@@ -1,7 +1,7 @@
 # frozen_string_literal: true
+$:.push File.expand_path("../lib", __FILE__)
 
 require_relative "lib/rest_api_generator/version"
-require_relative "lib/rest_api_generator"
 
 Gem::Specification.new do |spec|
   spec.name = "rest-api-generator"
@@ -27,20 +27,14 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-
-
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
   spec.metadata["rubygems_mfa_required"] = "true"
 
-  spec.add_dependency "activerecord", ">= 6.0"
-  spec.add_dependency "activesupport", ">= 6.0"
-  spec.add_dependency "actionview", ">= 6.0"
-  spec.add_dependency "railties", ">= 5.0.0"
+  spec.add_dependency "rails", ">= 5.0"
 
-  spec.add_development_dependency 'ammeter',  '~> 1.1.5'
-  spec.add_development_dependency 'rails', '>= 6.0'
-  spec.add_development_dependency 'rspec-rails',  '~> 6.0.0'
+  spec.add_development_dependency 'ammeter', '~> 1.1.5'
+  spec.add_development_dependency 'rspec-rails', '~> 6.0.0'
   spec.add_development_dependency 'sqlite3'
   spec.add_development_dependency 'database_cleaner'
 
