@@ -9,6 +9,9 @@ AllCops:
     - 'tmp/**/*'
     - '**/*/bundle'
 
+Naming/FileName:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 
@@ -20,6 +23,9 @@ Metrics/MethodLength:
 
 Metrics/AbcSize:
   Max: 25
+
+RSpec/ExampleLength:
+  Max: 6
 
 Metrics/BlockLength:
   AllowedMethods: [ 'describe', 'context' ]

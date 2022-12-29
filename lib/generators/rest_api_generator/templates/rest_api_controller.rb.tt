@@ -1,3 +1,4 @@
+<% scope_namespacing do -%>
 class <%= class_name.pluralize %>Controller < ApplicationController
   before_action :set_<%= singular_name %>, only: %i[show update destroy]
 
@@ -34,3 +35,4 @@ class <%= class_name.pluralize %>Controller < ApplicationController
     params.require(:<%= singular_name %>).permit(<%= attributes.map { |a| ':' + a.name }.join(', ') %>)
   end
 end
+<% end -%>

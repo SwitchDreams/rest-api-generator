@@ -7,14 +7,14 @@ RSpec.describe "<%= class_name %>", type: :request do
   describe "GET /<%= plural_name %>" do
     it "returns http success" do
       create(:<%= singular_table_name %>)
-      get "/<%= plural_name %>"
+      get "<%= spec_routes[:index] %>"
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /<%= plural_name %>/:id" do
     it "returns http success" do
-      get "/<%= plural_name %>/#{<%= singular_name %>.id}"
+      get "<%= spec_routes[:show] %>"
       expect(response).to have_http_status(:success)
     end
   end
@@ -22,7 +22,7 @@ RSpec.describe "<%= class_name %>", type: :request do
   describe "POST /<%= plural_name %>" do
     it "creates a new item" do
       expect do
-        post "/<%= plural_name %>",
+        post "<%= spec_routes[:create] %>",
              params: { <%= singular_name %>: valid_attributes }
       end.to change(<%= class_name %>, :count).by(1)
     end
@@ -30,7 +30,7 @@ RSpec.describe "<%= class_name %>", type: :request do
 
   describe "PATCH /<%= plural_name %>/:id" do
     it "return http success" do
-      patch "/<%= plural_name %>/#{<%= singular_name %>.id}",
+      patch "<%= spec_routes[:update] %>",
             params: { <%= singular_name %>: valid_attributes }
       expect(response).to have_http_status(:success)
     end
@@ -40,7 +40,7 @@ RSpec.describe "<%= class_name %>", type: :request do
     it "deletes an <%= plural_name %>" do
       item = create(:<%= singular_name %>)
       expect do
-        delete "/<%= plural_name %>/#{item.id}"
+        delete "<%= spec_routes[:delete] %>"
       end.to change(<%= class_name %>, :count).by(-1)
     end
   end

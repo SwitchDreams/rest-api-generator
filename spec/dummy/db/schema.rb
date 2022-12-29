@@ -12,12 +12,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_28_202654) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_28_221614) do
   create_table "cars", force: :cascade do |t|
     t.string "name"
     t.string "color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "drivers", force: :cascade do |t|
+    t.integer "car_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_drivers_on_car_id"
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -26,4 +34,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_28_202654) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_foreign_key "drivers", "cars"
 end

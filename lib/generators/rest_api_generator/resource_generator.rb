@@ -12,6 +12,7 @@ module RestApiGenerator
     argument :attributes, type: :array, default: [], banner: "field[:type][:index] field[:type][:index]"
     class_option :eject, type: :boolean, default: false
     class_option :scope, type: :string, default: ""
+    class_option :father, type: :string, default: ""
 
     API_CONTROLLER_DIR_PATH = "app/controllers"
     API_TEST_DIR_PATH = "spec/requests"
@@ -20,30 +21,66 @@ module RestApiGenerator
       create_model_files
 
       # Create controller and specs
-      scope_path = options["scope"].present? ? "/#{options["scope"].pluralize}" : ""
       controller_path = "#{API_CONTROLLER_DIR_PATH}#{scope_path}/#{file_name.pluralize}_controller.rb"
       controller_test_path = "#{API_TEST_DIR_PATH}#{scope_path}/#{file_name.pluralize}_controller_spec.rb"
 
       template controller_template, controller_path
       template spec_controller_template, controller_test_path
 
-      route "resources :#{file_name.pluralize}"
+      if options["scope"].blank? && options["father"].blank?
+        route "resources :#{file_name.pluralize}"
+      else
+        log("You need to manually setup routes files for nested or scoped resource")
+      end
     end
 
     private
 
+    def scope_path
+      return "" if options["scope"].blank? && options["father"].blank?
+
+      if options["scope"].present? && options["father"].present?
+        "/" + option_to_path(options["scope"]) + "/" + option_to_path(options["father"])
+      else
+        "/" + option_to_path(options["scope"]) + option_to_path(options["father"])
+      end
+    end
+
+    def scope_namespacing(&block)
+      content = capture(&block)
+      content = wrap_with_scope(content) if options["scope"].present? || options["father"].present?
+      concat(content)
+    end
+
+    def module_namespace
+      if options["scope"].present? && options["father"].present?
+        options["scope"] + "::" + options["father"]
+      else
+        options["scope"] + options["father"]
+      end
+    end
+
+    def wrap_with_scope(content)
+      content = indent(content).chomp
+      "module #{module_namespace}\n#{content}\nend\n"
+    end
+
     def controller_template
       if options["eject"]
-        "rest_api_controller.rb"
-      elsif options["scope"].present?
-        "child_api_controller.rb"
+        if options["father"].present?
+          "child_api_controller.rb"
+        else
+          "rest_api_controller.rb"
+        end
+      elsif options["father"].present?
+        "implicit_child_resource_controller.rb"
       else
         "implicit_resource_controller.rb"
       end
     end
 
     def spec_controller_template
-      if options["scope"].present?
+      if options["father"].present?
         "child_api_spec.rb"
       else
         "rest_api_spec.rb"

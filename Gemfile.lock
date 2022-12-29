@@ -2,10 +2,7 @@ PATH
   remote: .
   specs:
     rest-api-generator (0.1.1)
-      actionview (>= 6.0)
-      activerecord (>= 6.0)
-      activesupport (>= 6.0)
-      railties (>= 5.0.0)
+      rails (>= 5.0)
 
 GEM
   remote: https://rubygems.org/
@@ -226,7 +223,6 @@ PLATFORMS
 DEPENDENCIES
   ammeter (~> 1.1.5)
   database_cleaner
-  rails (>= 6.0)
   rake (~> 13.0)
   rest-api-generator!
   rspec (~> 3.0)

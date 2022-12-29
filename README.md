@@ -19,7 +19,8 @@ Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices,
 ## Current Features
 
 - [Automatic rest api crud generation](#example)
-- Modular error handler
+- [Nested Resource](#nested-resource)
+- [Modular error handler](#modular-error-handler)
 - [Resource ordering](#ordering)
 - [Resource filter](#filtering)
 
@@ -100,7 +101,7 @@ $ rails g rest_api_generator:resource car name:string color:string
 Will generate following controller and the other files:
 
 ```ruby
-
+# app/controllers/cars_controller.rb
 class CarsController < RestApiGenerator::ResourceController
 end
 ```
@@ -108,7 +109,75 @@ end
 For a better experience you can override some methods from the
 [default controller](https://github.com/SwitchDreams/rest-api-generator/blob/main/lib/rest_api_generator/resource_controller.rb)
 
-### Example with eject
+### Options
+
+| Option | Goal                                                         | Default | Usage Example   |
+|--------|--------------------------------------------------------------|---------|-----------------|
+| father | Generate nested resource                                     | nil     | --father Users  |
+| scope  | Scope the resource for other route or namespace organization | nil     | --scope Api::V1 |
+| eject  | Eject the controller to high customization                   | false   | true            |
+
+#### Scope
+
+In REST api one of the best practices is versioning the end-points, and you can achieve this using scope options,
+example:
+
+```bash
+# Command
+rails g rest_api_generator:resource car name:string color:string --scope Api::V1
+```
+
+```ruby
+# GET api/v1/cars
+module Api::V1
+  class CarsController < RestApiGenerator::ResourceController
+  end
+end
+```
+
+For this option you need to manually setup routes, for this example:
+
+```ruby
+# routes.rb
+namespace :api do
+  namespace :v1 do
+    resources :cars
+  end
+end
+```
+
+#### Nested resource
+
+In REST api sometimes we need to build a nested resource, for example when we need to get all devices from a user, for
+this we have nested resource option:
+
+```bash
+# Command
+rails g rest_api_generator:resource Devices name:string color:string users:references --scope Users
+```
+
+```ruby
+# GET users/:user_id/devices
+module Users
+  class DevicesController < RestApiGenerator::ChildResourceController
+  end
+end
+```
+
+For this option you need to manually setup routes, for this example:
+
+```ruby
+# routes.rb
+resources :users do
+  resources :devices, controller: 'users/devices'
+end
+```
+
+Considerations:
+
+- The children model needs to belongs_to parent model and parent model needs to have has_many children model
+
+#### Eject
 
 Or you can use the `eject` option for create the controller with the implemented methods:
 
@@ -154,10 +223,23 @@ class CarsController < ApplicationController
     params.require(:car).permit(:name, :color)
   end
 end
-
 ```
 
-### Features
+### Resource Features
+
+#### Modular Error Handler
+
+The error module will return a json in this following format when any active record or custom error raises.
+
+```json
+{
+  "status": 422,
+  "error": "",
+  "message": ""
+}
+```
+
+This is good to padronize the error handler in front-end too.
 
 #### Ordering
 

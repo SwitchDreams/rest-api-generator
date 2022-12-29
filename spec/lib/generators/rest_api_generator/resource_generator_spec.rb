@@ -60,4 +60,44 @@ RSpec.describe RestApiGenerator::ResourceGenerator, type: :generator do
       it { is_expected.to exist }
     end
   end
+
+  context "with scope" do
+    before do
+      run_generator(["user", "--scope", "Api::V1"])
+    end
+
+    describe "controller file" do
+      subject { file("app/controllers/api/v1/users_controller.rb") }
+
+      it { is_expected.to exist }
+      it { is_expected.to contain(/module Api::V1/) }
+    end
+  end
+
+  context "with nested resource" do
+    before do
+      run_generator(["user", "--father", "Country"])
+    end
+
+    describe "controller file" do
+      subject { file("app/controllers/country/users_controller.rb") }
+
+      it { is_expected.to exist }
+      it { is_expected.to contain(/module Country/) }
+      it { is_expected.to contain(/RestApiGenerator::ChildResourceController/) }
+    end
+  end
+
+  context "with nested resource and scope" do
+    before do
+      run_generator(["user", "--father", "Country", "--scope", "Api"])
+    end
+
+    describe "controller file" do
+      subject { file("app/controllers/api/country/users_controller.rb") }
+
+      it { is_expected.to exist }
+      it { is_expected.to contain(/module Api::Country/) }
+    end
+  end
 end
