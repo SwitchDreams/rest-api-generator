@@ -1,7 +1,29 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe "<%=class_name %>", type: :request do
+RSpec.describe "<%= class_name %>", type: :request do
   let(:valid_attributes) { attributes_for(:<%= singular_table_name %>) }
+
+  describe "GET /<%= plural_name %>" do
+    let(:<%= options['father'].downcase.singularize %>) { create(:<%= options['father'].downcase.singularize %>) }
+    let(:<%= singular_table_name %>) { create(:<%=singular_table_name %>, <%= options['father'].downcase %>: <%= options['father'].downcase %>) }
+
+    it "renders a successful response" do
+      get "<%= spec_routes[:index] %>"
+      expect(response).to be_successful
+    end
+  end
+
+
+    describe "GET /<%= singular_name %>" do
+      let(:<%= options['father'].downcase.singularize %>) { create(:<%= options['father'].downcase.singularize %>) }
+      let(:<%= singular_table_name %>) { create(:<%=singular_table_name %>, <%= options['father'].downcase.singularize %>: <%= options['father'].downcase %>)}
+
+      it "gets an <%= singular_name %>" do
+        get "<%= spec_routes[:show] %>"
+        expect(response).to be_successful
+      end
+    end
+
 
   describe "POST /<%= plural_name %>" do
     context "with valid parameters" do
@@ -37,23 +59,4 @@ RSpec.describe "<%=class_name %>", type: :request do
     end
   end
 
-  describe "GET/ <%= singular_name %>" do
-    let(:<%= options['father'].downcase.singularize %>) { create(:<%= options['father'].downcase.singularize %>) }
-    let(:<%= singular_table_name %>) { create(:<%=singular_table_name %>, <%= options['father'].downcase.singularize %>: <%= options['father'].downcase %>)}
-
-    it "gets an <%= singular_name %>" do
-      get "<%= spec_routes[:show] %>"
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /<%= plural_name %>" do
-    let(:<%= options['father'].downcase.singularize %>) { create(:<%= options['father'].downcase.singularize %>) }
-    let(:<%= singular_table_name %>) { create(:<%=singular_table_name %>, <%= options['father'].downcase %>: <%= options['father'].downcase %>) }
-
-    it "renders a successful response" do
-      get "<%= spec_routes[:index] %>"
-      expect(response).to be_successful
-    end
-  end
 end
