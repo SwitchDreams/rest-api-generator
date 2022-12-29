@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe "<%=class_name %>", type: :request do
   let(:valid_attributes) { attributes_for(:<%= singular_table_name %>) }
 
-  describe "POST /<%= plural_name%>" do
+  describe "POST /<%= plural_name %>" do
     context "with valid parameters" do
       let(:<%= options['father'].downcase.singularize %>) { create(:<%= options['father'].downcase.singularize %>) }
       it "creates a new <%= singular_name %>" do
         expect do
-          post "<%= child_spec_routes[:create] %>",
+          post "<%= spec_routes[:create] %>",
                params: { <%= singular_name %>: valid_attributes }
         end.to change(<%= class_name %>, :count).by(1)
       end
@@ -19,8 +19,8 @@ RSpec.describe "<%=class_name %>", type: :request do
     let(:<%= options['father'].downcase.singularize %>) { create(:<%= options['father'].downcase.singularize %>) }
     let(:<%= singular_table_name %>) { create(:<%=singular_table_name %>, <%= options['father'].downcase.singularize %>: <%= options['father'].downcase.singularize %>)}
 
-    it "updates an <%=singular_name %>" do
-        patch "<%= child_spec_routes[:update] %>",
+    it "updates an <%= singular_name %>" do
+        patch "<%= spec_routes[:update] %>",
             params: { <%= singular_name %>: valid_attributes }
         expect(response).to have_http_status(:success)
     end
@@ -29,10 +29,10 @@ RSpec.describe "<%=class_name %>", type: :request do
   describe "DELETE /<%= singular_name %>" do
     let(:<%= options['father'].downcase.singularize %>) { create(:<%= options['father'].downcase.singularize %>) }
 
-    it "deletes an <%=singular_name %>" do
+    it "deletes an <%= singular_name %>" do
       <%= singular_table_name %> = create(:<%=singular_table_name %>, <%= options['father'].downcase.singularize %>: <%= options['father'].downcase.singularize %>)
       expect do
-        delete "<%= child_spec_routes[:delete] %>"
+        delete "<%= spec_routes[:delete] %>"
       end.to change(<%= class_name %>, :count).by(-1)
     end
   end
@@ -41,8 +41,8 @@ RSpec.describe "<%=class_name %>", type: :request do
     let(:<%= options['father'].downcase.singularize %>) { create(:<%= options['father'].downcase.singularize %>) }
     let(:<%= singular_table_name %>) { create(:<%=singular_table_name %>, <%= options['father'].downcase.singularize %>: <%= options['father'].downcase %>)}
 
-    it "gets an <%=singular_name %>" do
-      get "<%= child_spec_routes[:show] %>"
+    it "gets an <%= singular_name %>" do
+      get "<%= spec_routes[:show] %>"
       expect(response).to be_successful
     end
   end
@@ -52,7 +52,7 @@ RSpec.describe "<%=class_name %>", type: :request do
     let(:<%= singular_table_name %>) { create(:<%=singular_table_name %>, <%= options['father'].downcase %>: <%= options['father'].downcase %>) }
 
     it "renders a successful response" do
-      get "<%= child_spec_routes[:index] %>"
+      get "<%= spec_routes[:index] %>"
       expect(response).to be_successful
     end
   end

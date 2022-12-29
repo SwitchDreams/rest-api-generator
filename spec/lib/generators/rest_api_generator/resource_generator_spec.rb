@@ -73,4 +73,17 @@ RSpec.describe RestApiGenerator::ResourceGenerator, type: :generator do
       it { is_expected.to contain(/module Api::V1/) }
     end
   end
+
+  context "with nested resource" do
+    before do
+      run_generator(["user", "--father", "Country"])
+    end
+
+    describe "controller file" do
+      subject { file("app/controllers/country/users_controller.rb") }
+
+      it { is_expected.to exist }
+      it { is_expected.to contain(/module Country/) }
+    end
+  end
 end

@@ -44,16 +44,28 @@ module RestApiGenerator
       concat(content)
     end
 
+    def module_namespace
+      if options["scope"].present? && options["father"].present?
+        options["scope"] + "::" + options["father"]
+      else
+        options["scope"] + options["father"]
+      end
+    end
+
     def wrap_with_scope(content)
       content = indent(content).chomp
-      "module #{options["scope"]}\n#{content}\nend\n"
+      "module #{module_namespace}\n#{content}\nend\n"
     end
 
     def controller_template
       if options["eject"]
-        "rest_api_controller.rb"
+        if options["father"].present?
+          "child_api_controller.rb"
+        else
+          "rest_api_controller.rb"
+        end
       elsif options["father"].present?
-        "child_api_controller.rb"
+        "implicit_child_resource_controller.rb"
       else
         "implicit_resource_controller.rb"
       end
