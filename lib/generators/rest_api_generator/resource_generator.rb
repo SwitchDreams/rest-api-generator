@@ -35,7 +35,11 @@ module RestApiGenerator
     def scope_path
       return "" if options["scope"].blank? && options["father"].blank?
 
-      "/" + options["scope"].downcase.split("::").join("/") + options["father"].downcase.split("::").join("/")
+      if options["scope"].present? && options["father"].present?
+        "/" + option_to_path(options["scope"]) + "/" + option_to_path(options["father"])
+      else
+        "/" + option_to_path(options["scope"]) + option_to_path(options["father"])
+      end
     end
 
     def scope_namespacing(&block)

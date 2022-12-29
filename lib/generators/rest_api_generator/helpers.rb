@@ -18,10 +18,14 @@ module RestApiGenerator
       end
     end
 
+    def option_to_path(option)
+      option.downcase.split("::").join("/")
+    end
+
     def scope_route_path
       return "" if options["scope"].blank?
 
-      options["scope"].downcase.split("::").join("/")
+      option_to_path(options["scope"])
     end
 
     def nested_routes
