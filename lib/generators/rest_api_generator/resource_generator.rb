@@ -27,7 +27,11 @@ module RestApiGenerator
       template controller_template, controller_path
       template spec_controller_template, controller_test_path
 
-      route "resources :#{file_name.pluralize}"
+      if options["scope"].blank? && options["father"].blank?
+        route "resources :#{file_name.pluralize}"
+      else
+        log("You need to manually setup routes files for nested or scoped resource")
+      end
     end
 
     private
