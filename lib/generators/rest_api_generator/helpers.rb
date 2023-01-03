@@ -4,8 +4,12 @@ module RestApiGenerator
   module Helpers
     attr_accessor :options, :attributes
 
+    API_CONTROLLER_DIR_PATH = "app/controllers"
+    API_TEST_DIR_PATH = "spec/requests"
+
     private
 
+    # Columns handlers
     def model_columns_for_attributes
       class_name.singularize.constantize.columns.reject do |column|
         column.name.to_s =~ /^(id|user_id|created_at|updated_at)$/
@@ -15,6 +19,38 @@ module RestApiGenerator
     def editable_attributes
       @editable_attributes ||= model_columns_for_attributes.map do |column|
         Rails::Generators::GeneratedAttribute.new(column.name.to_s, column.type.to_s)
+      end
+    end
+
+    # Namespace scope
+
+    def scope_namespacing(&block)
+      content = capture(&block)
+      content = wrap_with_scope(content) if options["scope"].present? || options["father"].present?
+      concat(content)
+    end
+
+    def module_namespace
+      if options["scope"].present? && options["father"].present?
+        options["scope"] + "::" + options["father"]
+      else
+        options["scope"] + options["father"]
+      end
+    end
+
+    def wrap_with_scope(content)
+      content = indent(content).chomp
+      "module #{module_namespace}\n#{content}\nend\n"
+    end
+
+    # Paths handlers
+    def scope_path
+      return "" if options["scope"].blank? && options["father"].blank?
+
+      if options["scope"].present? && options["father"].present?
+        "/" + option_to_path(options["scope"]) + "/" + option_to_path(options["father"])
+      else
+        "/" + option_to_path(options["scope"]) + option_to_path(options["father"])
       end
     end
 

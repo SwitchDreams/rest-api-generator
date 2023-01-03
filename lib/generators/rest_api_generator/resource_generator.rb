@@ -13,20 +13,25 @@ module RestApiGenerator
     class_option :eject, type: :boolean, default: false
     class_option :scope, type: :string, default: ""
     class_option :father, type: :string, default: ""
-
-    API_CONTROLLER_DIR_PATH = "app/controllers"
-    API_TEST_DIR_PATH = "spec/requests"
+    # class_option :spec, type: :string, default: "rspec", enum: ["rspec", "rswag"]
+    hook_for :spec, in: "rest_api_generator:spec", default: "rspec"
 
     def create_service_file
       create_model_files
 
       # Create controller and specs
       controller_path = "#{API_CONTROLLER_DIR_PATH}#{scope_path}/#{file_name.pluralize}_controller.rb"
-      controller_test_path = "#{API_TEST_DIR_PATH}#{scope_path}/#{file_name.pluralize}_controller_spec.rb"
 
       template controller_template, controller_path
-      template spec_controller_template, controller_test_path
 
+      # Specs
+      # if options["spec"] == "rswag"
+      #   Rails::Generators.invoke "rest_api_generator:specs:rswag", args
+      # else
+      #   Rails::Generators.invoke "rest_api_generator:specs:rspec", args
+      # end
+
+      # Routes
       if options["scope"].blank? && options["father"].blank?
         route "resources :#{file_name.pluralize}"
       else
@@ -35,35 +40,6 @@ module RestApiGenerator
     end
 
     private
-
-    def scope_path
-      return "" if options["scope"].blank? && options["father"].blank?
-
-      if options["scope"].present? && options["father"].present?
-        "/" + option_to_path(options["scope"]) + "/" + option_to_path(options["father"])
-      else
-        "/" + option_to_path(options["scope"]) + option_to_path(options["father"])
-      end
-    end
-
-    def scope_namespacing(&block)
-      content = capture(&block)
-      content = wrap_with_scope(content) if options["scope"].present? || options["father"].present?
-      concat(content)
-    end
-
-    def module_namespace
-      if options["scope"].present? && options["father"].present?
-        options["scope"] + "::" + options["father"]
-      else
-        options["scope"] + options["father"]
-      end
-    end
-
-    def wrap_with_scope(content)
-      content = indent(content).chomp
-      "module #{module_namespace}\n#{content}\nend\n"
-    end
 
     def controller_template
       if options["eject"]
@@ -76,14 +52,6 @@ module RestApiGenerator
         "implicit_child_resource_controller.rb"
       else
         "implicit_resource_controller.rb"
-      end
-    end
-
-    def spec_controller_template
-      if options["father"].present?
-        "child_api_spec.rb"
-      else
-        "rest_api_spec.rb"
       end
     end
 
