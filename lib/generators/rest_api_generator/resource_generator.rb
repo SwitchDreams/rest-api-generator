@@ -13,23 +13,12 @@ module RestApiGenerator
     class_option :eject, type: :boolean, default: false
     class_option :scope, type: :string, default: ""
     class_option :father, type: :string, default: ""
-    # class_option :spec, type: :string, default: "rspec", enum: ["rspec", "rswag"]
     hook_for :spec, in: "rest_api_generator:spec", default: "rspec"
 
     def create_service_file
       create_model_files
 
-      # Create controller and specs
-      controller_path = "#{API_CONTROLLER_DIR_PATH}#{scope_path}/#{file_name.pluralize}_controller.rb"
-
       template controller_template, controller_path
-
-      # Specs
-      # if options["spec"] == "rswag"
-      #   Rails::Generators.invoke "rest_api_generator:specs:rswag", args
-      # else
-      #   Rails::Generators.invoke "rest_api_generator:specs:rspec", args
-      # end
 
       # Routes
       if options["scope"].blank? && options["father"].blank?

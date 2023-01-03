@@ -44,6 +44,10 @@ module RestApiGenerator
     end
 
     # Paths handlers
+    def controller_path
+      "#{API_CONTROLLER_DIR_PATH}#{scope_path}/#{file_name.pluralize}_controller.rb"
+    end
+
     def scope_path
       return "" if options["scope"].blank? && options["father"].blank?
 
@@ -71,6 +75,8 @@ module RestApiGenerator
     end
 
     def initial_route
+      return "/#{plural_name}" if options["father"].blank? && options["scope"].blank?
+
       scope_route_path + "/" + nested_routes
     end
 
