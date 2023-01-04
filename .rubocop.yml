@@ -29,3 +29,18 @@ RSpec/ExampleLength:
 
 Metrics/BlockLength:
   AllowedMethods: [ 'describe', 'context' ]
+
+
+# DSL rubocop for rswag
+RSpec:
+  Language:
+    Helpers:
+      - run_test!
+    ExampleGroups:
+      Regular:
+        - path
+        - get
+    Includes:
+      Examples:
+        - response
+
