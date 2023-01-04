@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-$:.push File.expand_path("../lib", __FILE__)
+
+$LOAD_PATH.push File.expand_path("../lib", __FILE__)
 
 require_relative "lib/rest_api_generator/version"
 
@@ -22,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.metadata["changelog_uri"] = "https://github.com/SwitchDreams/rest-api-generator"
 
   spec.files = Dir["{bin,sig,lib,public}/**/*", "MIT-LICENSE", "Rakefile", "README.md", "rest-api-generator.gemspec",
-                   "Gemfile", "Gemfile.lock"]
+    "Gemfile", "Gemfile.lock"]
   spec.bindir = "exe"
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
@@ -33,9 +34,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "rails", ">= 5.0"
 
-  spec.add_development_dependency 'ammeter', '~> 1.1.5'
-  spec.add_development_dependency 'rspec-rails', '~> 6.0.0'
-  spec.add_development_dependency 'sqlite3'
-  spec.add_development_dependency 'database_cleaner'
-
+  spec.add_development_dependency "ammeter", "~> 1.1.5"
+  spec.add_development_dependency "database_cleaner"
+  spec.add_development_dependency "rspec-rails", "~> 6.0.0"
+  spec.add_development_dependency "sqlite3"
 end
