@@ -20,6 +20,14 @@ module RestApiGenerator
 
       private
 
+      # Changes nested routes for rswag format
+      # Example: /cars/{car.id}/drivers/{id}
+      def nested_routes
+        return "" if options["father"].blank?
+
+        "#{options["father"].downcase.pluralize}/{#{options["father"].singularize.downcase}_id}/#{plural_name}"
+      end
+
       def spec_routes
         {
           index: initial_route,
