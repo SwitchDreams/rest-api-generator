@@ -33,7 +33,7 @@ RSpec.describe "<%= spec_routes[:index] %>", type: :request do
         }
       }
       response(201, "successful") do
-        let(:<%= singular_table_name %>) {attributes_for(:<%= singular_table_name %>)}
+        let(:<%= singular_table_name %>) { attributes_for(:<%= singular_table_name %>) }
 
         after do |example|
           example.metadata[:response][:content] = {
