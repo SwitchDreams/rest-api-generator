@@ -100,4 +100,16 @@ RSpec.describe RestApiGenerator::ResourceGenerator, type: :generator do
       it { is_expected.to contain(/module Api::Country/) }
     end
   end
+
+  context "with custom spec" do
+    before do
+      run_generator(["user", "--spec", "rswag"])
+    end
+
+    describe "rswag file" do
+      subject { file("spec/requests/users_spec.rb") }
+
+      it { is_expected.to exist }
+    end
+  end
 end
