@@ -15,7 +15,6 @@ module RestApiGenerator
       class_option :father, type: :string, default: ""
 
       def create_service_file
-        puts "teste"
         template spec_controller_template, controller_test_path
       end
 
@@ -37,9 +36,9 @@ module RestApiGenerator
 
       def spec_controller_template
         if options["father"].present?
-          "rswag/resource_controller_spec.rb"
-        else
           "rswag/nested_resource_controller_spec.rb"
+        else
+          "rswag/resource_controller_spec.rb"
         end
       end
     end

@@ -1,18 +1,22 @@
-require "rails_helper"
+# frozen_string_literal: true
 
-RSpec.describe "<%= spec_routes[:index] %>", type: :request do
-  let(:resource) { create(:<%= singular_table_name %>) }
+# Testing rswag
+require "swagger_helper"
+require "rest_api_generator/resource_controller"
 
-  path "<%= spec_routes[:index] %>" do
-    get("list <%= plural_name %>") do
+RSpec.describe "/cars", type: :request do
+  let(:resource) { Car.create! }
+
+  path "/cars" do
+    get("list cars") do
       consumes "application/json"
 
       response(200, "successful") do
         after do |example|
           example.metadata[:response][:content] = {
             "application/json" => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
+              example: JSON.parse(response.body, symbolize_names: true),
+            },
           }
         end
 
@@ -20,26 +24,24 @@ RSpec.describe "<%= spec_routes[:index] %>", type: :request do
       end
     end
 
-    post("create <%= singular_table_name %>") do
+    post("create car") do
       consumes "application/json"
-
       # You'll want to customize the parameter types...
-      parameter name: :<%= singular_table_name %>, in: :body, schema: {
+      parameter name: :car, in: :body, schema: {
         type: :object,
         properties: {
-          <% attributes.each do |attribute| -%>
-<%= attribute.name %>: { type: :string },
-<% end -%>
-        }
+          name: { type: :string },
+          color: { type: :string },
+        },
       }
       response(201, "successful") do
-        let(:<%= singular_table_name %>) {attributes_for(:<%= singular_table_name %>)}
+        let(:car) { { name: "Switch", color: "Dreams" } }
 
         after do |example|
           example.metadata[:response][:content] = {
             "application/json" => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
+              example: JSON.parse(response.body, symbolize_names: true),
+            },
           }
         end
 
@@ -48,10 +50,10 @@ RSpec.describe "<%= spec_routes[:index] %>", type: :request do
     end
   end
 
-  path "<%= spec_routes[:show] %>" do
+  path "/cars/{id}" do
     parameter name: "id", in: :path, type: :string, description: "id"
 
-    get("show <%= singular_table_name %>") do
+    get("show car") do
       consumes "application/json"
 
       response(200, "successful") do
@@ -60,37 +62,35 @@ RSpec.describe "<%= spec_routes[:index] %>", type: :request do
         after do |example|
           example.metadata[:response][:content] = {
             "application/json" => {
-              example: JSON.parse(response.body, symbolize_names: true)
+              example: JSON.parse(response.body, symbolize_names: true),
+            },
           }
-        }
         end
+
         run_test!
       end
     end
 
-
-    patch("update <%= singular_table_name %>") do
+    patch("update car") do
       consumes "application/json"
-
       # You'll want to customize the parameter types...
-      parameter name: :<%= singular_table_name %>, in: :body, schema: {
+      parameter name: :car, in: :body, schema: {
         type: :object,
         properties: {
-          <% attributes.each do |attribute| -%>
-<%= attribute.name %>: { type: :string },
-<% end -%>
-        }
+          name: { type: :string },
+          color: { type: :string },
+        },
       }
 
       response(200, "successful") do
         let(:id) { resource.id }
-        let(:<%= singular_table_name %>) { attributes_for(:<%= singular_table_name %>) }
+        let(:car) { { name: "Switch", color: "Dreams" } }
 
         after do |example|
           example.metadata[:response][:content] = {
             "application/json" => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
+              example: JSON.parse(response.body, symbolize_names: true),
+            },
           }
         end
 

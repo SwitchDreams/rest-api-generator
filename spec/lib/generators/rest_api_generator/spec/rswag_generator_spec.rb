@@ -24,6 +24,10 @@ RSpec.describe RestApiGenerator::Spec::RswagGenerator, type: :generator do
       it "describe show, update, delete path" do
         expect(spec_file).to contain("/users/{id}")
       end
+
+      it "has name schema for input" do
+        expect(spec_file).to contain("name: { type: :string }")
+      end
     end
   end
 end
