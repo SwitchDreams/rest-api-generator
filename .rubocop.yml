@@ -5,7 +5,6 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 2.6
   Exclude:
-    - 'rest-api-generator.gemspec'
     - 'tmp/**/*'
     - '**/*/bundle'
 
@@ -17,6 +16,7 @@ Style/Documentation:
 
 Layout/LineLength:
   Max: 120
+  Exclude: ["rest-api-generator.gemspec"]
 
 Metrics/MethodLength:
   Max: 17
@@ -29,3 +29,18 @@ RSpec/ExampleLength:
 
 Metrics/BlockLength:
   AllowedMethods: [ 'describe', 'context' ]
+
+
+# DSL rubocop for rswag
+RSpec:
+  Language:
+    Helpers:
+      - run_test!
+    ExampleGroups:
+      Regular:
+        - path
+        - get
+    Includes:
+      Examples:
+        - response
+

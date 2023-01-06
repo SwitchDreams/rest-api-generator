@@ -17,3 +17,5 @@ rest-api-generator.iml
 rest-api-generator-*.gem
 
 tmp
+
+.tool-versions

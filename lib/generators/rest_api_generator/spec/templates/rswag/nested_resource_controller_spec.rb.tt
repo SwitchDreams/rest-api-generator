@@ -1,0 +1,116 @@
+require "rails_helper"
+
+RSpec.describe "<%= spec_routes[:index] %>", type: :request do
+  let(:resource) { create(:<%= singular_table_name %>, <%= options['father'].downcase.singularize %>: parent_resource) }
+  let(:parent_resource ) { create(:<%= options['father'].downcase.singularize %>) }
+
+  path "<%= spec_routes[:index] %>" do
+    parameter name: "<%= options['father'].downcase.singularize %>_id", in: :path, type: :string, description: "<%= options['father'].downcase.singularize %> id"
+    let(:<%= options['father'].downcase.singularize %>_id) { parent_resource.id }
+
+    get("list <%= plural_name %>") do
+      consumes "application/json"
+
+      response(200, "successful") do
+        after do |example|
+          example.metadata[:response][:content] = {
+            "application/json" => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+
+        run_test!
+      end
+    end
+
+    post("create <%= singular_table_name %>") do
+      consumes "application/json"
+
+      # You'll want to customize the parameter types...
+      parameter name: :<%= singular_table_name %>, in: :body, schema: {
+        type: :object,
+        properties: {
+          <% attributes.each do |attribute| -%>
+<%= attribute.name %>: { type: :string },
+<% end -%>
+        }
+      }
+      response(201, "successful") do
+        let(:<%= singular_table_name %>) { attributes_for(:<%= singular_table_name %>) }
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            "application/json" => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+
+        run_test!
+      end
+    end
+  end
+
+  path "<%= spec_routes[:show] %>" do
+    parameter name: "id", in: :path, type: :string, description: "id"
+    parameter name: "<%= options['father'].downcase.singularize %>_id", in: :path, type: :string, description: "<%= options['father'].downcase.singularize %> id"
+
+    let(:id) { resource.id }
+    let(:<%= options['father'].downcase.singularize %>_id) { parent_resource.id }
+
+    get("show <%= singular_table_name %>") do
+      consumes "application/json"
+
+      response(200, "successful") do
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            "application/json" => {
+              example: JSON.parse(response.body, symbolize_names: true)
+          }
+        }
+        end
+        run_test!
+      end
+    end
+
+
+    patch("update <%= singular_table_name %>") do
+      consumes "application/json"
+
+      # You'll want to customize the parameter types...
+      parameter name: :<%= singular_table_name %>, in: :body, schema: {
+        type: :object,
+        properties: {
+          <% attributes.each do |attribute| -%>
+<%= attribute.name %>: { type: :string },
+<% end -%>
+        }
+      }
+
+      response(200, "successful") do
+        let(:<%= singular_table_name %>) { attributes_for(:<%= singular_table_name %>) }
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            "application/json" => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+
+        run_test!
+      end
+    end
+
+    delete("delete plan") do
+      consumes "application/json"
+
+      response(204, "successful") do
+
+        run_test!
+      end
+    end
+  end
+end

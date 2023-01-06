@@ -8,7 +8,6 @@ RSpec.describe "ChildResourceController", type: :request do
     it "returns http success" do
       car = Car.create!
       get "/cars/#{car.id}/drivers"
-      puts response.body
       expect(response).to have_http_status(:success)
     end
   end

@@ -20,14 +20,13 @@ Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices,
 
 - [Automatic rest api crud generation](#example)
 - [Nested Resource](#nested-resource)
-- [Modular error handler](#modular-error-handler)
+- :goal_net: [Modular error handler](#modular-error-handler)
+- :memo: [Automated documentation](#specsdocs)
 - [Resource ordering](#ordering)
 - [Resource filter](#filtering)
 
 ## Next Features
 
-- Generate nested resource end-points 🚧
-- Automated documentation 🚧 https://github.com/SwitchDreams/rest-api-generator/issues/12
 - Serialization https://github.com/SwitchDreams/rest-api-generator/issues/14
   https://github.com/SwitchDreams/rest-api-generator/issues/11
 - Pagination https://github.com/SwitchDreams/rest-api-generator/issues/15
@@ -116,6 +115,7 @@ For a better experience you can override some methods from the
 | father | Generate nested resource                                     | nil     | --father Users  |
 | scope  | Scope the resource for other route or namespace organization | nil     | --scope Api::V1 |
 | eject  | Eject the controller to high customization                   | false   | true            |
+| spec   | Choose the spec format. Current options: "rspec" or "rswag"  | rspec   | --spec rswag    |
 
 #### Scope
 
@@ -223,6 +223,24 @@ class CarsController < ApplicationController
     params.require(:car).permit(:name, :color)
   end
 end
+```
+
+#### Specs/Docs
+
+The default generated spec for this gem is using plain rspec, but you can choose rswag, for scaffold you specs and docs
+at the same time:
+
+For this you need to setup https://github.com/rswag/rswag and you the following flag when generating resources.
+
+```shell
+rails g rest_api_generator:resource Car name:string color:string --spec rswag
+```
+
+This spec options work as generators too, so you can call them individually:
+
+```shell
+# rest_api_generator:spec:rswag or rest_api_generator:spec:rspec
+rails g rest_api_generator:spec:rswag Car name:string color:string
 ```
 
 ### Resource Features
