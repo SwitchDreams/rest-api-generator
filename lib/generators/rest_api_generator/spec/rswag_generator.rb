@@ -25,7 +25,7 @@ module RestApiGenerator
       def nested_routes
         return "" if options["father"].blank?
 
-        "#{options["father"].downcase.pluralize}/{#{options["father"].singularize.downcase}_id}/#{plural_name}"
+        "#{options["father"].downcase.pluralize}/{#{options["father"].singularize.downcase}_id}"
       end
 
       def spec_routes
