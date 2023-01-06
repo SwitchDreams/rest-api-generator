@@ -26,9 +26,9 @@ module RestApiGenerator
 
       def spec_controller_template
         if options["father"].present?
-          "rspec/resource_controller_spec.rb"
-        else
           "rspec/nested_resource_controller_spec.rb"
+        else
+          "rspec/resource_controller_spec.rb"
         end
       end
     end
