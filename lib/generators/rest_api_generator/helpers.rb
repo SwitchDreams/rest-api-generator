@@ -71,22 +71,24 @@ module RestApiGenerator
     def nested_routes
       return "" if options["father"].blank?
 
-      "#{options["father"].downcase.pluralize}/\#{#{options["father"].singularize.downcase}.id}/#{plural_name}"
+      "#{options["father"].downcase.pluralize}/\#{#{options["father"].singularize.downcase}.id}"
     end
 
     def initial_route
-      return "/#{plural_name}" if options["father"].blank? && options["scope"].blank?
-
-      scope_route_path + "/" + nested_routes
+      route = ""
+      route += scope_route_path if options["scope"].present?
+      route += options["father"].present? && route.present? ? "/#{nested_routes}" : nested_routes
+      route += "/#{plural_name}"
+      route[0] == "/" ? route : "/#{route}"
     end
 
     def spec_routes
       {
         index: initial_route,
-        show: initial_route + "\#{#{singular_name}.id}",
+        show: initial_route + "/\#{#{singular_name}.id}",
         create: initial_route,
-        update: initial_route + "\#{#{singular_name}.id}",
-        delete: initial_route + "\#{#{singular_name}.id}",
+        update: initial_route + "/\#{#{singular_name}.id}",
+        delete: initial_route + "/\#{#{singular_name}.id}",
       }
     end
   end

@@ -38,7 +38,7 @@ RSpec.describe "<%= class_name %>", type: :request do
 
   describe "DELETE /<%= plural_name %>/:id" do
     it "deletes an <%= plural_name %>" do
-      item = create(:<%= singular_name %>)
+      <%= singular_name %> = create(:<%= singular_name %>)
       expect do
         delete "<%= spec_routes[:delete] %>"
       end.to change(<%= class_name %>, :count).by(-1)
