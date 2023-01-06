@@ -76,8 +76,6 @@ module RestApiGenerator
 
     def initial_route
       route = ""
-      # return "/#{plural_name}" if options["father"].blank? && options["scope"].blank?
-
       route += scope_route_path if options["scope"].present?
       route += options["father"].present? && route.present? ? "/#{nested_routes}" : nested_routes
       route += "/#{plural_name}"
