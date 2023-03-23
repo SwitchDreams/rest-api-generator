@@ -5,8 +5,8 @@ module RestApiGenerator
     attr_accessor :options, :attributes
 
     API_CONTROLLER_DIR_PATH = "app/controllers"
-    API_TEST_DIR_PATH = ENV.fetch("TEST_PATH") { "spec/requests" }
-    API_DOCS_DIR_PATH = ENV.fetch("DOCS_PATH") { "spec/docs" }
+    API_TEST_DIR_PATH = RestApiGenerator::Config.new.test_path
+    API_DOCS_DIR_PATH = RestApiGenerator::Config.new.docs_path
 
     private
 
