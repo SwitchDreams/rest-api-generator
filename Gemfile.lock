@@ -245,7 +245,7 @@ PLATFORMS
 
 DEPENDENCIES
   ammeter (~> 1.1.5)
-  anyway_config (~> 2.0)
+  anyway_config (>= 2.0.0)
   database_cleaner
   rake (~> 13.0)
   rest-api-generator!
