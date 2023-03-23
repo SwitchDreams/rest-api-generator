@@ -78,6 +78,8 @@ GEM
       activesupport (>= 3.0)
       railties (>= 3.0)
       rspec-rails (>= 2.2)
+    anyway_config (2.3.1)
+      ruby-next-core (>= 0.14.0)
     ast (2.4.2)
     builder (3.2.4)
     concurrent-ruby (1.1.10)
@@ -218,6 +220,7 @@ GEM
       rubocop (~> 1.33)
     rubocop-shopify (2.10.1)
       rubocop (~> 1.35)
+    ruby-next-core (0.15.3)
     ruby-progressbar (1.11.0)
     sqlite3 (1.5.4-x86_64-linux)
     switchcop (0.1.2)
@@ -237,10 +240,12 @@ GEM
     zeitwerk (2.6.6)
 
 PLATFORMS
+  ruby
   x86_64-linux
 
 DEPENDENCIES
   ammeter (~> 1.1.5)
+  anyway_config (~> 2.0)
   database_cleaner
   rake (~> 13.0)
   rest-api-generator!

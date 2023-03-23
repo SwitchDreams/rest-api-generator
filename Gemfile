@@ -12,3 +12,5 @@ gem "rspec", "~> 3.0"
 gem "switchcop"
 
 gem "sqlite3"
+
+gem "anyway_config", "~> 2.0"
