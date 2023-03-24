@@ -5,8 +5,8 @@ module RestApiGenerator
     attr_accessor :options, :attributes
 
     API_CONTROLLER_DIR_PATH = "app/controllers"
-    API_TEST_DIR_PATH = RestApiGenerator::Config.new.test_path
-    API_DOCS_DIR_PATH = RestApiGenerator::Config.new.docs_path
+    API_TEST_DIR_PATH = RestApiGenerator.configuration.test_path
+    API_DOCS_DIR_PATH = RestApiGenerator.configuration.docs_path
 
     private
 
