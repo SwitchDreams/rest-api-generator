@@ -23,7 +23,6 @@ module RestApiGenerator
     end
   end
 
-
   def self.parent_controller
     "RestApiGenerator::ApplicationController"
   end
