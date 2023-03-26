@@ -39,7 +39,7 @@ module RestApiGenerator
       end
 
       def controller_test_path
-        "#{API_TEST_DIR_PATH}#{scope_path}/#{file_name.pluralize}_spec.rb"
+        "#{API_DOCS_DIR_PATH}#{scope_path}/#{file_name.pluralize}_spec.rb"
       end
 
       def spec_controller_template

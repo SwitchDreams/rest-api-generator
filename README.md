@@ -243,6 +243,20 @@ This spec options work as generators too, so you can call them individually:
 rails g rest_api_generator:spec:rswag Car name:string color:string
 ```
 
+##### Custom paths
+
+By default, the plain rspec and rswag specs are going to be generated in the _spec/requests_ and _spec/docs_
+directories, respectively. You can override this configuration with an initializer inside your project:
+
+```rb
+# config/initializers/rest_api_generator.rb 
+
+RestApiGenerator.configure do |config|
+  config.test_path = "custom_test_dir/requests"
+  config.docs_path = "custom_docs_dir/rswag"
+end
+```
+
 ### Resource Features
 
 #### Modular Error Handler
