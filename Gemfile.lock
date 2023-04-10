@@ -1,7 +1,8 @@
 PATH
   remote: .
   specs:
-    rest-api-generator (0.1.4)
+    rest-api-generator (0.1.5)
+      anyway_config (>= 2.0.0)
       rails (>= 5.0)
 
 GEM
@@ -78,7 +79,7 @@ GEM
       activesupport (>= 3.0)
       railties (>= 3.0)
       rspec-rails (>= 2.2)
-    anyway_config (2.3.1)
+    anyway_config (2.4.0)
       ruby-next-core (>= 0.14.0)
     ast (2.4.2)
     builder (3.2.4)
@@ -93,7 +94,7 @@ GEM
     date (3.3.3)
     diff-lcs (1.5.0)
     erubi (1.12.0)
-    globalid (1.0.0)
+    globalid (1.1.0)
       activesupport (>= 5.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
@@ -103,7 +104,7 @@ GEM
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    mail (2.8.0)
+    mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
       net-pop
@@ -111,6 +112,7 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
+    mini_portile2 (2.8.1)
     minitest (5.16.3)
     net-imap (0.3.4)
       date
@@ -121,7 +123,10 @@ GEM
       timeout
     net-smtp (0.3.3)
       net-protocol
-    nio4r (2.5.8)
+    nio4r (2.5.9)
+    nokogiri (1.13.10)
+      mini_portile2 (~> 2.8.0)
+      racc (~> 1.4)
     nokogiri (1.13.10-x86_64-linux)
       racc (~> 1.4)
     parallel (1.22.1)
@@ -222,6 +227,8 @@ GEM
       rubocop (~> 1.35)
     ruby-next-core (0.15.3)
     ruby-progressbar (1.11.0)
+    sqlite3 (1.5.4)
+      mini_portile2 (~> 2.8.0)
     sqlite3 (1.5.4-x86_64-linux)
     switchcop (0.1.2)
       rubocop (~> 1.40.0)
@@ -230,7 +237,7 @@ GEM
       rubocop-rspec (~> 2.16.0)
       rubocop-shopify (~> 2.10.1)
     thor (1.2.1)
-    timeout (0.3.1)
+    timeout (0.3.2)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.3.0)
@@ -245,7 +252,6 @@ PLATFORMS
 
 DEPENDENCIES
   ammeter (~> 1.1.5)
-  anyway_config (>= 2.0.0)
   database_cleaner
   rake (~> 13.0)
   rest-api-generator!
