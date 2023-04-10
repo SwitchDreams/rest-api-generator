@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.metadata["source_code_uri"] = "https://github.com/SwitchDreams/rest-api-generator"
   spec.metadata["changelog_uri"] = "https://github.com/SwitchDreams/rest-api-generator"
 
-  spec.files = Dir["{bin,sig,lib,public}/**/*",
+  spec.files = Dir["{bin,sig,lib,public,app}/**/*",
     "MIT-LICENSE",
     "Rakefile",
     "README.md",
