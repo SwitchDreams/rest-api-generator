@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 RestApiGenerator.configure do |config|
-  config.test_path = "custom_test/requests"
-  config.docs_path = "custom_docs/rswag"
+  config.test_path = "spec/requests"
+  config.docs_path = "spec/docs"
 end

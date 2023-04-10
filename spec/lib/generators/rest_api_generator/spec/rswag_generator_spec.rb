@@ -13,7 +13,7 @@ RSpec.describe RestApiGenerator::Spec::RswagGenerator, type: :generator do
     end
 
     describe "spec file" do
-      subject(:spec_file) { file("spec/requests/users_spec.rb") }
+      subject(:spec_file) { file("spec/docs/users_spec.rb") }
 
       it { is_expected.to exist }
 
@@ -37,7 +37,7 @@ RSpec.describe RestApiGenerator::Spec::RswagGenerator, type: :generator do
     end
 
     describe "spec file" do
-      subject(:spec_file) { file("spec/requests/cars/drivers_spec.rb") }
+      subject(:spec_file) { file("spec/docs/cars/drivers_spec.rb") }
 
       it { is_expected.to exist }
 

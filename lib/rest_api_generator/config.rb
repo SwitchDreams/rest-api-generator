@@ -2,7 +2,7 @@
 
 require "anyway_config"
 
-Anyway::Settings.default_config_path = ->(_name) { "" }
+Anyway::Settings.default_config_path = ->(_name) { Rails.root ? Rails.root.join("config/rest_api_generator.yml") : "" }
 
 module RestApiGenerator
   class Config < Anyway::Config
