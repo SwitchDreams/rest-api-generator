@@ -22,8 +22,13 @@ Gem::Specification.new do |spec|
   spec.metadata["source_code_uri"] = "https://github.com/SwitchDreams/rest-api-generator"
   spec.metadata["changelog_uri"] = "https://github.com/SwitchDreams/rest-api-generator"
 
-  spec.files = Dir["{bin,sig,lib,public}/**/*", "MIT-LICENSE", "Rakefile", "README.md", "rest-api-generator.gemspec",
-    "Gemfile", "Gemfile.lock"]
+  spec.files = Dir["{bin,sig,lib,public,app}/**/*",
+    "MIT-LICENSE",
+    "Rakefile",
+    "README.md",
+    "rest-api-generator.gemspec",
+    "Gemfile",
+    "Gemfile.lock"]
   spec.bindir = "exe"
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
@@ -32,10 +37,10 @@ Gem::Specification.new do |spec|
   # guide at: https://bundler.io/guides/creating_gem.html
   spec.metadata["rubygems_mfa_required"] = "true"
 
+  spec.add_dependency "anyway_config", ">= 2.0.0"
   spec.add_dependency "rails", ">= 5.0"
 
   spec.add_development_dependency "ammeter", "~> 1.1.5"
-  spec.add_development_dependency "anyway_config", ">= 2.0.0"
   spec.add_development_dependency "database_cleaner"
   spec.add_development_dependency "rspec-rails", "~> 6.0.0"
   spec.add_development_dependency "rswag"

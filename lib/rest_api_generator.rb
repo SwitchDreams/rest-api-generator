@@ -2,7 +2,6 @@
 
 require "rails"
 require_relative "rest_api_generator/version"
-require_relative "rest_api_generator/application_controller"
 require_relative "rest_api_generator/error_handler"
 require_relative "rest_api_generator/config"
 require_relative "rest_api_generator/custom_error"
@@ -13,20 +12,13 @@ require_relative "rest_api_generator/orderable"
 module RestApiGenerator
   class Error < StandardError; end
 
-  class << self
-    def configuration
-      @configuration ||= Config.new
-    end
-
-    def configure
-      yield(configuration)
-    end
+  def self.configuration
+    @config ||= Config.new
   end
 
-  def self.parent_controller
-    "RestApiGenerator::ApplicationController"
+  def self.configure
+    yield(configuration) if block_given?
   end
 end
 
-require_relative "rest_api_generator/resource_controller"
-require_relative "rest_api_generator/child_resource_controller"
+require "rest_api_generator/rails" if defined?(Rails)

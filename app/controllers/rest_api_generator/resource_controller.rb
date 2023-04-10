@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module RestApiGenerator
-  class ResourceController < RestApiGenerator.parent_controller.constantize
+  class ResourceController < RestApiGenerator.configuration.parent_controller.constantize
     include Orderable
 
     before_action :set_resource, only: [:show, :update, :destroy]

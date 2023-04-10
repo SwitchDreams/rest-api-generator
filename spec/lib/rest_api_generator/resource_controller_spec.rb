@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require "rest_api_generator/resource_controller"
 
 RSpec.describe "ResourceController", type: :request do
   describe "GET transactions" do

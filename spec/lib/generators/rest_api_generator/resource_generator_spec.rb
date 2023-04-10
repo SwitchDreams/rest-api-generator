@@ -107,7 +107,7 @@ RSpec.describe RestApiGenerator::ResourceGenerator, type: :generator do
     end
 
     describe "rswag file" do
-      subject { file("spec/requests/users_spec.rb") }
+      subject { file("spec/docs/users_spec.rb") }
 
       it { is_expected.to exist }
     end
