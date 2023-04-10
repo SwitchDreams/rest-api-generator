@@ -24,6 +24,7 @@ Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices,
 - :memo: [Automated documentation](#specsdocs)
 - [Resource ordering](#ordering)
 - [Resource filter](#filtering)
+- [Configurable](#configuration)
 
 ## Next Features
 
@@ -243,19 +244,11 @@ This spec options work as generators too, so you can call them individually:
 rails g rest_api_generator:spec:rswag Car name:string color:string
 ```
 
-##### Custom paths
+#### Configuration for specs
 
 By default, the plain rspec and rswag specs are going to be generated in the _spec/requests_ and _spec/docs_
-directories, respectively. You can override this configuration with an initializer inside your project:
+directories, respectively. You can override using the (config options)[#configuration]]. :
 
-```rb
-# config/initializers/rest_api_generator.rb 
-
-RestApiGenerator.configure do |config|
-  config.test_path = "custom_test_dir/requests"
-  config.docs_path = "custom_docs_dir/rswag"
-end
-```
 
 ### Resource Features
 
@@ -300,6 +293,20 @@ end
 And It's done, you can filter your index end-point:
 
 - `GET /cars?color=blue or GET /cars?color=red&name=Ferrari`
+
+## Configuration
+
+You can override this gem configuration using the initializer or any other method from [anyway_config](https://github.com/palkan/anyway_config):
+
+```rb
+# config/initializers/rest_api_generator.rb 
+
+RestApiGenerator.configure do |config|
+  config.test_path = "custom_test_dir/requests" # default: spec/requests
+  config.docs_path = "custom_docs_dir/rswag" # default: spec/docs
+  config.parent_class = "ApplicationController" # default: RestApiGenerator::ResourceController
+end
+```
 
 ## Development
 
