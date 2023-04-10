@@ -13,18 +13,12 @@ require_relative "rest_api_generator/orderable"
 module RestApiGenerator
   class Error < StandardError; end
 
-  class << self
-    def configuration
-      @configuration ||= Config.new
-    end
-
-    def configure
-      yield(configuration)
-    end
+  def self.configuration
+    @config ||= Config.new
   end
 
-  def self.parent_controller
-    "RestApiGenerator::ApplicationController"
+  def self.configure
+    yield(configuration) if block_given?
   end
 end
 
