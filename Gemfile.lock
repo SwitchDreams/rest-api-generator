@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rest-api-generator (0.1.5)
+    rest-api-generator (0.1.6)
       anyway_config (>= 2.0.0)
       rails (>= 5.0)
 

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "rails/all"
 require "rest_api_generator"
 
 DEFAULT_DESTINATION_PATH = File.expand_path("../tmp", __dir__)
