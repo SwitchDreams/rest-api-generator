@@ -27,6 +27,9 @@ Metrics/AbcSize:
 RSpec/ExampleLength:
   Max: 6
 
+RSpec/AnyInstance:
+  Enabled: false
+
 Metrics/BlockLength:
   AllowedMethods: [ 'describe', 'context' ]
 

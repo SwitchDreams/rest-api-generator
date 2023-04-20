@@ -11,8 +11,10 @@ module RestApiGenerator
       @resources = resource_class.all
       @resources = @resources.filter_resource(params_for_filter) if resource_class.include?(Filterable)
       @resources = @resources.order(ordering_params(params[:sort])) if params[:sort]
-      @pagy, @resources = pagy(@resources)
-      pagy_headers_merge(@pagy)
+      if pagination
+        @pagy, @resources = pagy(@resources)
+        pagy_headers_merge(@pagy)
+      end
       render json: @resources, status: :ok
     end
 
