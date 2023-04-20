@@ -3,7 +3,6 @@
 module RestApiGenerator
   class ChildResourceController < RestApiGenerator.configuration.parent_controller.constantize
     include Orderable
-    include Pagy::Backend
 
     before_action :set_parent_resource
     before_action :set_resource, only: [:show, :update, :destroy]
