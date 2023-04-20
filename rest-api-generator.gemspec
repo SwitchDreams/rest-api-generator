@@ -39,6 +39,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "anyway_config", ">= 2.0.0"
   spec.add_dependency "rails", ">= 5.0"
+  spec.add_dependency "pagy"
 
   spec.add_development_dependency "ammeter", "~> 1.1.5"
   spec.add_development_dependency "database_cleaner"

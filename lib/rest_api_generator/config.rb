@@ -10,6 +10,7 @@ module RestApiGenerator
 
     attr_config test_path: "spec/requests",
       docs_path: "spec/docs",
-      parent_controller: "RestApiGenerator::ApplicationController"
+      parent_controller: "RestApiGenerator::ApplicationController",
+      pagination: false
   end
 end
