@@ -13,6 +13,7 @@ ENV["RAILS_ROOT"] ||= "#{File.dirname(__FILE__)}../../../spec/dummy"
 require "rspec/rails"
 require "ammeter/init"
 require "database_cleaner"
+require "anyway/testing/helpers"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

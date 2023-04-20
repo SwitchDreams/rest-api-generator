@@ -10,6 +10,26 @@ RSpec.describe "ChildResourceController", type: :request do
       get "/cars/#{car.id}/drivers"
       expect(response).to have_http_status(:success)
     end
+
+    context "with pagination" do
+      before do
+        allow_any_instance_of(RestApiGenerator::ChildResourceController).to receive(:pagination).and_return(true)
+      end
+
+      it "returns pagy headers" do
+        car = Car.create!
+        Driver.create!(car: car)
+        get "/cars/#{car.id}/drivers"
+        expect(response.headers["Total-Count"]).to eq("1")
+      end
+
+      it "returns second page correctly" do
+        car = Car.create!
+        21.times { Driver.create!(car: car) }
+        get "/cars/#{car.id}/drivers?page=2"
+        expect(response.parsed_body.length).to eq(1)
+      end
+    end
   end
 
   describe "GET cars/driver" do

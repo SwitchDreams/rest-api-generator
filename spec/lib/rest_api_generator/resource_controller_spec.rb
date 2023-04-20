@@ -8,6 +8,24 @@ RSpec.describe "ResourceController", type: :request do
       get "/transactions"
       expect(response).to have_http_status(:success)
     end
+
+    context "with pagination" do
+      before do
+        allow_any_instance_of(RestApiGenerator::ResourceController).to receive(:pagination).and_return(true)
+      end
+
+      it "returns pagy headers" do
+        Transaction.create!
+        get "/transactions"
+        expect(response.headers["Total-Count"]).to eq("1")
+      end
+
+      it "returns second page correctly" do
+        21.times { Transaction.create! }
+        get "/transactions?page=2"
+        expect(response.parsed_body.length).to eq(1)
+      end
+    end
   end
 
   describe "GET transaction" do

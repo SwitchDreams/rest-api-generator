@@ -1,8 +1,9 @@
 PATH
   remote: .
   specs:
-    rest-api-generator (0.1.6)
+    rest-api-generator (0.1.7)
       anyway_config (>= 2.0.0)
+      pagy
       rails (>= 5.0)
 
 GEM
@@ -129,6 +130,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.13.10-x86_64-linux)
       racc (~> 1.4)
+    pagy (6.0.3)
     parallel (1.22.1)
     parser (3.1.3.0)
       ast (~> 2.4.1)

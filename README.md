@@ -24,6 +24,7 @@ Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices,
 - :memo: [Automated documentation](#specsdocs)
 - [Resource ordering](#ordering)
 - [Resource filter](#filtering)
+- [Resource pagination](#pagination)
 - [Configurable](#configuration)
 
 ## Next Features
@@ -294,6 +295,34 @@ And It's done, you can filter your index end-point:
 
 - `GET /cars?color=blue or GET /cars?color=red&name=Ferrari`
 
+### Pagination
+
+For pagination, you need to create pagy initialializer file (pagy.rb) in the config directory of your project. Follow [pagy's example](https://ddnexus.github.io/pagy/quick-start/) for more information.
+
+Next, you should add some lines on top of the previously created pagy file:
+
+```ruby
+# config/initializers/pagy.rb
+require "pagy"
+require "pagy/extras/headers"
+```
+
+At last, change the pagination variable on RestApiGenerator initializer to true;
+
+```rb
+# config/initializers/rest_api_generator.rb 
+config.pagination = true # default: false
+```
+
+Note, if the parent controller is changed, it is necessary to include Pagy::Backend in the new parent.
+
+```rb
+# new_parent_controller.rb 
+class NewParentController < ActionController::Base
+  include Pagy::Backend
+end
+```
+
 ## Configuration
 
 You can override this gem configuration using the initializer or any other method from [anyway_config](https://github.com/palkan/anyway_config):
@@ -305,6 +334,7 @@ RestApiGenerator.configure do |config|
   config.test_path = "custom_test_dir/requests" # default: spec/requests
   config.docs_path = "custom_docs_dir/rswag" # default: spec/docs
   config.parent_class = "ApplicationController" # default: RestApiGenerator::ResourceController
+  config.pagination = true # default: false
 end
 ```
 

@@ -10,6 +10,10 @@ module RestApiGenerator
       @resources = resource_class.all
       @resources = @resources.filter_resource(params_for_filter) if resource_class.include?(Filterable)
       @resources = @resources.order(ordering_params(params[:sort])) if params[:sort]
+      if pagination
+        @pagy, @resources = pagy(@resources)
+        pagy_headers_merge(@pagy)
+      end
       render json: @resources, status: :ok
     end
 
@@ -68,6 +72,10 @@ module RestApiGenerator
 
     def record_id
       params.permit(:id)[:id]
+    end
+
+    def pagination
+      RestApiGenerator.configuration.pagination
     end
   end
 end
