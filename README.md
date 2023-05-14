@@ -25,13 +25,11 @@ Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices,
 - [Resource ordering](#ordering)
 - [Resource filter](#filtering)
 - [Resource pagination](#pagination)
+- [Resource serialization](#serialization)
 - [Configurable](#configuration)
 
 ## Next Features
 
-- Serialization https://github.com/SwitchDreams/rest-api-generator/issues/14
-  https://github.com/SwitchDreams/rest-api-generator/issues/11
-- Pagination https://github.com/SwitchDreams/rest-api-generator/issues/15
 - Integration with AVO
 - Select fields
 - User auth module
@@ -250,7 +248,6 @@ rails g rest_api_generator:spec:rswag Car name:string color:string
 By default, the plain rspec and rswag specs are going to be generated in the _spec/requests_ and _spec/docs_
 directories, respectively. You can override using the (config options)[#configuration]]. :
 
-
 ### Resource Features
 
 #### Modular Error Handler
@@ -297,7 +294,8 @@ And It's done, you can filter your index end-point:
 
 ### Pagination
 
-For pagination, you need to create pagy initialializer file (pagy.rb) in the config directory of your project. Follow [pagy's example](https://ddnexus.github.io/pagy/quick-start/) for more information.
+For pagination, you need to create pagy initialializer file (pagy.rb) in the config directory of your project.
+Follow [pagy's example](https://ddnexus.github.io/pagy/quick-start/) for more information.
 
 Next, you should add some lines on top of the previously created pagy file:
 
@@ -323,9 +321,45 @@ class NewParentController < ActionController::Base
 end
 ```
 
+### Serialization
+
+If you are working with [ams](https://github.com/rails-api/active_model_serializers), the serializer will work without
+any extra configuration.
+But if you need to customize you can override the serializer method in the controller:
+
+```ruby
+# Example with panko serializer: https://github.com/panko-serializer/panko_serializer
+class CarsController < RestApiGenerator::ResourceController
+
+  # serializer used in show, create, update.
+  def serializer(resource)
+    Panko::CarSerializer.new.serialize_to_json(resource)
+  end
+
+  # serializer used in index.
+  def index_serializer(resources)
+    Panko::ArraySerializer.new(resources, each_serializer: Panko::CarSerializer).to_json
+  end
+end
+```
+
+```ruby
+# Example with ams
+class CarsController < RestApiGenerator::ResourceController
+  def serializer(resource)
+    ActiveModelSerializers::SerializableResource.new(resource, each_serializer: Ams::CarSerializer).to_json
+  end
+end
+```
+
+The gem is tested with [panko serializer](https://github.com/panko-serializer/panko_serializer)
+and [ams](https://github.com/rails-api/active_model_serializers). But should works with any serializer, feel free to add
+tests for your favorite serializer.
+
 ## Configuration
 
-You can override this gem configuration using the initializer or any other method from [anyway_config](https://github.com/palkan/anyway_config):
+You can override this gem configuration using the initializer or any other method
+from [anyway_config](https://github.com/palkan/anyway_config):
 
 ```rb
 # config/initializers/rest_api_generator.rb 
