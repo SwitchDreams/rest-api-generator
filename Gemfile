@@ -12,3 +12,9 @@ gem "rspec", "~> 3.0"
 gem "switchcop"
 
 gem "sqlite3"
+
+# Serializers
+
+gem 'panko_serializer'
+
+gem 'active_model_serializers', '~> 0.10.0'
