@@ -3,6 +3,7 @@
 module RestApiGenerator
   class ResourceController < RestApiGenerator.configuration.parent_controller.constantize
     include Orderable
+    include Serializable
 
     before_action :set_resource, only: [:show, :update, :destroy]
 
@@ -76,14 +77,6 @@ module RestApiGenerator
 
     def pagination
       RestApiGenerator.configuration.pagination
-    end
-
-    def serializer(resource)
-      resource
-    end
-
-    def index_serializer(resources)
-      serializer(resources)
     end
   end
 end

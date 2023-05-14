@@ -3,6 +3,7 @@
 module RestApiGenerator
   class ChildResourceController < RestApiGenerator.configuration.parent_controller.constantize
     include Orderable
+    include Serializable
 
     before_action :set_parent_resource
     before_action :set_resource, only: [:show, :update, :destroy]
@@ -15,21 +16,21 @@ module RestApiGenerator
         @pagy, @resources = pagy(@resources)
         pagy_headers_merge(@pagy)
       end
-      render json: @resources, status: :ok
+      render json: index_serializer(@resources), status: :ok
     end
 
     def show
-      render json: @resource, status: :ok
+      render json: serializer(@resource), status: :ok
     end
 
     def create
       @resource = resources.create!(resource_created_params)
-      render json: @resource, status: :created
+      render json: serializer(@resource), status: :created
     end
 
     def update
       @resource.update!(resource_updated_params)
-      render json: @resource, status: :ok
+      render json: serializer(@resource), status: :ok
     end
 
     def destroy
