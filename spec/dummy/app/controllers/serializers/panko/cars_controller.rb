@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Serializers::Panko::CarsController < RestApiGenerator::ResourceController
-
   def serializer(resource)
     Panko::CarSerializer.new.serialize_to_json(resource)
   end

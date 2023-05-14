@@ -102,8 +102,8 @@ RSpec.describe "ResourceController", type: :request do
     end
   end
 
-  context "with serializer" do
-    context "panko" do
+  describe "serialization" do
+    context "with panko" do
       it "be serialized by panko serializer" do
         Car.create!(name: "Car")
         get "/serializers/panko/cars"
@@ -111,7 +111,7 @@ RSpec.describe "ResourceController", type: :request do
       end
     end
 
-    context "ams" do
+    context "with ams" do
       it "be serialized by ams serializer" do
         Car.create!(name: "Car")
         get "/serializers/ams/cars"
