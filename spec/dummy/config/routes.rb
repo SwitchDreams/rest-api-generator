@@ -6,4 +6,10 @@ Rails.application.routes.draw do
   resources :cars do
     resources :drivers, controller: "cars/drivers"
   end
+
+  namespace :serializers do
+    namespace :panko do
+      resources :cars
+    end
+  end
 end

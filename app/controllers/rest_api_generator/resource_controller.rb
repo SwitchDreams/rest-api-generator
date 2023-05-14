@@ -14,21 +14,21 @@ module RestApiGenerator
         @pagy, @resources = pagy(@resources)
         pagy_headers_merge(@pagy)
       end
-      render json: @resources, status: :ok
+      render json: index_serializer(@resources), status: :ok
     end
 
     def show
-      render json: @resource, status: :ok
+      render json: serializer(@resource), status: :ok
     end
 
     def create
       @resource = resource_class.create!(resource_created_params)
-      render json: @resource, status: :created
+      render json: serializer(@resource), status: :created
     end
 
     def update
       @resource.update!(resource_updated_params)
-      render json: @resource, status: :ok
+      render json: serializer(@resource), status: :ok
     end
 
     def destroy
@@ -76,6 +76,14 @@ module RestApiGenerator
 
     def pagination
       RestApiGenerator.configuration.pagination
+    end
+
+    def serializer(resource)
+      resource
+    end
+
+    def index_serializer(resources)
+      serializer(resources)
     end
   end
 end
