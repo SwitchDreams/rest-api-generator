@@ -11,5 +11,9 @@ Rails.application.routes.draw do
     namespace :panko do
       resources :cars
     end
+
+    namespace :ams do
+      resources :cars
+    end
   end
 end
