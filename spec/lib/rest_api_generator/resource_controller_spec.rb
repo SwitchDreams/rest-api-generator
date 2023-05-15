@@ -101,4 +101,22 @@ RSpec.describe "ResourceController", type: :request do
       end
     end
   end
+
+  describe "serialization" do
+    context "with panko" do
+      it "be serialized by panko serializer" do
+        Car.create!(name: "Car")
+        get "/serializers/panko/cars"
+        expect(JSON.parse(response.body)[0]["panko_field"]).to eq("panko_field")
+      end
+    end
+
+    context "with ams" do
+      it "be serialized by ams serializer" do
+        Car.create!(name: "Car")
+        get "/serializers/ams/cars"
+        expect(JSON.parse(response.body)[0]["ams_field"]).to eq("ams_field")
+      end
+    end
+  end
 end
