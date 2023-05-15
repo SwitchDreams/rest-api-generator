@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/SwitchDreams/rest-api-generator"
   spec.metadata["changelog_uri"] = "https://github.com/SwitchDreams/rest-api-generator"
+  spec.metadata["github_repo"] = "https://github.com/SwitchDreams/rest-api-generator"
 
   spec.files = Dir["{bin,sig,lib,public,app}/**/*",
     "MIT-LICENSE",
