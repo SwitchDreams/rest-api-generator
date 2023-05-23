@@ -2,6 +2,7 @@
 
 module RestApiGenerator
   class ChildResourceController < RestApiGenerator.configuration.parent_controller.constantize
+    include ControllerCallbacks
     include Orderable
     include Serializable
 
@@ -74,11 +75,15 @@ module RestApiGenerator
 
     # Before actions
     def set_parent_resource
-      @parent_resource = parent_resource_class.find(parent_record_id)
+      run_callbacks :set_parent_resource do
+        @parent_resource = parent_resource_class.find(parent_record_id)
+      end
     end
 
     def set_resource
-      @resource = resources.find(record_id)
+      run_callbacks :set_resource do
+        @resource = resources.find(record_id)
+      end
     end
 
     # UsersController => User
