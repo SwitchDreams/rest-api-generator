@@ -19,3 +19,7 @@ rest-api-generator-*.gem
 tmp
 
 .tool-versions
+
+docs/.vitepress/dist
+docs/.vitepress/cache
+node_modules
