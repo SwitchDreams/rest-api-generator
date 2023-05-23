@@ -2,11 +2,11 @@
 
 module RestApiGenerator
   class ResourceController < RestApiGenerator.configuration.parent_controller.constantize
+    include ControllerCallbacks
     include Orderable
     include Serializable
 
     before_action :set_resource, only: [:show, :update, :destroy]
-
     def index
       @resources = resource_class.all
       @resources = @resources.filter_resource(params_for_filter) if resource_class.include?(Filterable)
@@ -63,7 +63,9 @@ module RestApiGenerator
     end
 
     def set_resource
-      @resource = resource_class.find(record_id)
+      run_callbacks :set_resource do
+        @resource = resource_class.find(record_id)
+      end
     end
 
     # UsersController => User
