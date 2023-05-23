@@ -19,7 +19,7 @@ module RestApiGenerator
           end
         end
 
-        define_method "#{callback}_set_parent" do |*names, &blk|
+        define_method "#{callback}_set_parent_resource" do |*names, &blk|
           _insert_callbacks(names, blk) do |name, options|
             set_callback(:set_parent_resource, callback, name, options)
           end
