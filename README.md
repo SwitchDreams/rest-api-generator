@@ -27,6 +27,7 @@ Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices,
 - [Resource pagination](#pagination)
 - [Resource serialization](#serialization)
 - [Configurable](#configuration)
+- [Callbacks](#callbacks)
 
 ## Next Features
 
@@ -355,6 +356,26 @@ end
 The gem is tested with [panko serializer](https://github.com/panko-serializer/panko_serializer)
 and [ams](https://github.com/rails-api/active_model_serializers). But should works with any serializer, feel free to add
 tests for your favorite serializer.
+
+#### Callbacks
+
+You can use the callbacks in the controller to add some logic before, around or after `set_resource`
+or `set_parent_resource`:
+
+```ruby
+# frozen_string_literal: true
+
+class CarsController < RestApiGenerator::ResourceController
+  after_set_resource :authorize_logic
+
+  def authorize_logic
+    # Custom authorization logic
+    # authorize! :manage, @resource
+  end
+end
+```
+
+This is essencial when you need to authorize the resource before any action.
 
 ## Configuration
 
