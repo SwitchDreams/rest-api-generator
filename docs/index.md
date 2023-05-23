@@ -15,11 +15,11 @@ hero:
       link: /quick-start
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: CRUD generator
+    details: Generate a rails CRUD
+  - title: Automatic Docs/Specs
+    details: This gem will generate the documentation and specs for you
+  - title: Modular error handler
+    details: Get the advantage of a modular error handler
 ---
 

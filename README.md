@@ -3,6 +3,11 @@
 This gem helps you to build a Ruby on Rails REST API faster, using a scaffold-like generator that follows the best
 practices.
 
+## Get started
+
+:zap: **Quick Start**: [docs](https://rest-api-generator.switchdreams.com.br/quick-start)\
+:books: **Documentation**: [docs](https://rest-api-generator.switchdreams.com.br/)
+
 ## How it works?
 
 The gems use vanilla Rails generators in combination with our templates to create all the resources needed to build a
@@ -34,45 +39,6 @@ Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices,
 - Integration with AVO
 - Select fields
 - User auth module
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-# Build a Ruby on Rails REST API faster
-gem 'rest-api-generator'
-```
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install rest-api-generator
-
-## Requirements
-
-1. You need to have installed RSpec and FactoryBot in your application.
-
-<ul>
-  <li>RSpec: https://github.com/rspec/rspec-rails</li>
-  <li>Factory bot: https://github.com/thoughtbot/factory_bot_rails</li>
-</ul>
-
-2. Include in ApplicationController the error handler module:
-
-```ruby
-
-class ApplicationController < ActionController::API
-  include RestApiGenerator::ErrorHandler
-end
-```
-
-This error handler will rescue from: `ActiveRecord::RecordNotFound`
-, `ActiveRecord::ActiveRecordError`, `ActiveRecord::RecordInvalid`, `ActiveModel::ValidationError`
-, `RestApiGenerator::CustomError`.
 
 ## Development
 
