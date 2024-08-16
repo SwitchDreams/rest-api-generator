@@ -34,7 +34,7 @@ RSpec.describe RestApiGenerator::ResourceGenerator, type: :generator do
     describe "migration file" do
       subject { migration_file("db/migrate/create_users.rb") }
 
-      it { is_expected.to exist }
+      it { is_expected.to be_a_migration }
     end
 
     describe "routes" do
