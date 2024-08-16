@@ -51,11 +51,9 @@ module RestApiGenerator
     end
 
     def build_model_attributes
-      model_attributes = []
-      attributes.each do |attribute|
-        model_attributes << "#{attribute.name}:#{attribute.type}"
+      attributes.map do |attribute|
+        "#{attribute.name}:#{attribute.type}"
       end
-      model_attributes
     end
   end
 end
