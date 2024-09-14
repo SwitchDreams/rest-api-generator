@@ -42,7 +42,7 @@ Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices,
 
 ## Other alternatives
 
-This gem resolves a very common problem an the are a lot of alternative in the market
+This gem resolves a very common problem so the are a lot of alternative in the market.
 
 - [decent_exposure](https://github.com/hashrocket/decent_exposure)
 - [resourcerer](https://github.com/ElMassimo/resourcerer)
