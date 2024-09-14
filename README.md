@@ -40,6 +40,13 @@ Following [Switch Dreams's](https://www.switchdreams.com.br/]) coding practices,
 - Select fields
 - User auth module
 
+## Other alternatives
+
+This gem resolves a very common problem so the are a lot of alternative in the market.
+
+- [decent_exposure](https://github.com/hashrocket/decent_exposure)
+- [resourcerer](https://github.com/ElMassimo/resourcerer)
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can
