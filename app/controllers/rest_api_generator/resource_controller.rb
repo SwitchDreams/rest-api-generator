@@ -7,8 +7,9 @@ module RestApiGenerator
     include Serializable
 
     before_action :set_resource, only: [:show, :update, :destroy]
+
     def index
-      @resources = resource_class.all
+      set_all_resources
       @resources = @resources.filter_resource(params_for_filter) if resource_class.include?(Filterable)
       @resources = @resources.order(ordering_params(params[:sort])) if params[:sort]
       if pagination
@@ -65,6 +66,12 @@ module RestApiGenerator
     def set_resource
       run_callbacks :set_resource do
         @resource = resource_class.find(record_id)
+      end
+    end
+
+    def set_all_resources
+      run_callbacks :set_all_resources do
+        @resources = resource_class.all
       end
     end
 
