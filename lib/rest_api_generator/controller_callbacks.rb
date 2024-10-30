@@ -8,6 +8,7 @@ module RestApiGenerator
     included do
       define_callbacks :set_resource
       define_callbacks :set_parent_resource
+      define_callbacks :set_all_resources
     end
 
     module ClassMethods
@@ -22,6 +23,12 @@ module RestApiGenerator
         define_method :"#{callback}_set_parent_resource" do |*names, &blk|
           _insert_callbacks(names, blk) do |name, options|
             set_callback(:set_parent_resource, callback, name, options)
+          end
+        end
+
+        define_method :"#{callback}_set_all_resources" do |*names, &blk|
+          _insert_callbacks(names, blk) do |name, options|
+            set_callback(:set_all_resources, callback, name, options)
           end
         end
       end

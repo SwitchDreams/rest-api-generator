@@ -10,7 +10,7 @@ module RestApiGenerator
     before_action :set_resource, only: [:show, :update, :destroy]
 
     def index
-      @resources = resources
+      set_all_resources
       @resources = @resources.filter_resource(params_for_filter) if resource_class.include?(Filterable)
       @resources = @resources.order(ordering_params(params[:sort])) if params[:sort]
       if pagination
@@ -39,6 +39,12 @@ module RestApiGenerator
     end
 
     private
+
+    def set_all_resources
+      run_callbacks :set_all_resources do
+        @resources = resources
+      end
+    end
 
     def resources
       @parent_resource.send(resource_class.to_s.downcase.pluralize)

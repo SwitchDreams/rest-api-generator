@@ -121,7 +121,7 @@ RSpec.describe "ResourceController", type: :request do
   end
 
   describe "callbacks" do
-    context "when callbacks exists" do
+    context "when set resource callbacks exists" do
       it "calls callbacks" do
         car = Car.create!(name: "Car")
         controller = CarsController.new
@@ -133,6 +133,20 @@ RSpec.describe "ResourceController", type: :request do
         # rubocop:enable RSpec/MessageSpies
 
         controller.send(:set_resource)
+      end
+    end
+
+    context "when set all resources callbacks exists" do
+      it "calls callbacks" do
+        Car.create!(name: "Car")
+        controller = CarsController.new
+        allow(controller).to receive(:params).and_return(ActionController::Parameters.new({}))
+
+        # rubocop:disable RSpec/MessageSpies
+        expect(controller).to receive(:authorized_scope)
+        # rubocop:enable RSpec/MessageSpies
+
+        controller.send(:set_all_resources)
       end
     end
   end
