@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rest-api-generator (0.3.0)
+    rest-api-generator (0.4.0)
       anyway_config (>= 2.0.0)
       pagy
       rails (>= 5.0)
@@ -156,7 +156,7 @@ GEM
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
     ostruct (0.6.0)
-    pagy (9.0.5)
+    pagy (9.3.1)
     panko_serializer (0.8.2)
       activesupport
       oj (> 3.11.0, < 4.0.0)
