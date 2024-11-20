@@ -6,7 +6,6 @@ require "pagy"
 # Customize only what you really need and notice that the core Pagy works also without any of the following lines.
 # Should you just cherry pick part of this file, please maintain the require-order of the extras
 
-
 # Pagy Variables
 # See https://ddnexus.github.io/pagy/docs/api/pagy#variables
 # You can set any pagy variable as a Pagy::DEFAULT. They can also be overridden per instance by just passing them to
@@ -19,17 +18,14 @@ require "pagy"
 # Pagy::DEFAULT[:count_args]  = []                    # example for non AR ORMs
 # Pagy::DEFAULT[:max_pages]   = 3000                  # example
 
-
 # Extras
 # See https://ddnexus.github.io/pagy/categories/extra
-
 
 # Legacy Compatibility Extras
 
 # Size extra: Enable the Array type for the `:size` variable (e.g. `size: [1,4,4,1]`)
 # See https://ddnexus.github.io/pagy/docs/extras/size
 # require 'pagy/extras/size'   # must be required before the other extras
-
 
 # Backend Extras
 
@@ -75,7 +71,7 @@ require "pagy"
 
 # Headers extra: http response headers (and other helpers) useful for API pagination
 # See https://ddnexus.github.io/pagy/docs/extras/headers
-require 'pagy/extras/headers'
+require "pagy/extras/headers"
 # Pagy::DEFAULT[:headers] = { page: 'Current-Page',
 #                            limit: 'Page-Items',
 #                            count: 'Total-Count',
@@ -113,7 +109,6 @@ require 'pagy/extras/headers'
 # uncomment if you are going to use Searchkick.pagy_search
 # Searchkick.extend Pagy::Searchkick
 
-
 # Frontend Extras
 
 # Bootstrap extra: Add nav, nav_js and combo_nav_js helpers and templates for Bootstrap pagination
@@ -133,7 +128,6 @@ require 'pagy/extras/headers'
 # See https://ddnexus.github.io/pagy/docs/extras/pagy#steps
 # Pagy::DEFAULT[:steps] = { 0 => 5, 540 => 7, 720 => 9 }   # example
 
-
 # Feature Extras
 
 # Gearbox extra: Automatically change the limit per page depending on the page number
@@ -145,7 +139,7 @@ require 'pagy/extras/headers'
 
 # Limit extra: Allow the client to request a custom limit per page with an optional selector UI
 # See https://ddnexus.github.io/pagy/docs/extras/limit
-require 'pagy/extras/limit'
+require "pagy/extras/limit"
 # set to false only if you want to make :limit_extra an opt-in variable
 # Pagy::DEFAULT[:limit_extra] = false    # default true
 # Pagy::DEFAULT[:limit_param] = :limit   # default
@@ -211,12 +205,10 @@ require 'pagy/extras/limit'
 #                   filepath: 'path/to/pagy-xyz.yml',
 #                   pluralize: lambda{ |count| ... } )
 
-
 # I18n extra: uses the standard i18n gem which is ~18x slower using ~10x more memory
 # than the default pagy internal i18n (see above)
 # See https://ddnexus.github.io/pagy/docs/extras/i18n
 # require 'pagy/extras/i18n'
-
 
 # When you are done setting your own default freeze it, so it will not get changed accidentally
 Pagy::DEFAULT.freeze
