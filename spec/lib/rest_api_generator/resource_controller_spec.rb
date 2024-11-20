@@ -150,4 +150,22 @@ RSpec.describe "ResourceController", type: :request do
       end
     end
   end
+
+  describe "pagination" do
+    context "when pagination is enabled" do
+      it "returns pagy headers" do
+        Car.create!
+        get "/cars"
+        expect(response.headers["Total-Count"]).to eq("1")
+      end
+    end
+
+    describe "limit" do
+      it "returns 10 records" do
+        11.times { Car.create! }
+        get "/cars", params: { limit: 10 }
+        expect(JSON.parse(response.body).length).to eq(10)
+      end
+    end
+  end
 end

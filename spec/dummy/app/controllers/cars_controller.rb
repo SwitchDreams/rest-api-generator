@@ -13,4 +13,8 @@ class CarsController < RestApiGenerator::ResourceController
     # Custom authorization logic
     # authorize! :manage, @resource
   end
+
+  def pagination
+    true
+  end
 end
