@@ -56,7 +56,12 @@ module RestApiGenerator
     end
 
     def resource_params
-      params.require(resource_class.model_name.singular.to_sym).permit(resource_attributes)
+      singular_resource_name = resource_class.model_name.singular.to_sym
+      if Rails.gem_version < Gem::Version.new("8.0")
+        params.require(singular_resource_name).permit(resource_attributes)
+      else
+        params.expect(singular_resource_name => resource_attributes)
+      end
     end
 
     def resource_attributes
