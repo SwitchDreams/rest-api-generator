@@ -15,13 +15,13 @@ RSpec.describe "ResourceController", type: :request do
       end
 
       it "returns pagy headers" do
-        Transaction.create!
+        Transaction.create!(amount: 20)
         get "/transactions"
         expect(response.headers["Total-Count"]).to eq("1")
       end
 
       it "returns second page correctly" do
-        21.times { Transaction.create! }
+        21.times { Transaction.create!(amount: 20) }
         get "/transactions?page=2"
         expect(response.parsed_body.length).to eq(1)
       end
@@ -30,7 +30,7 @@ RSpec.describe "ResourceController", type: :request do
 
   describe "GET transaction" do
     it "returns http success" do
-      t = Transaction.create!
+      t = Transaction.create!(amount: 20)
       get "/transactions/#{t.id}"
       expect(response).to have_http_status(:success)
     end
@@ -39,6 +39,13 @@ RSpec.describe "ResourceController", type: :request do
   describe "POST transactions" do
     it "creates a new transaction" do
       expect { post "/transactions", params: { transaction: { amount: 20 } } }.to change(Transaction, :count).by(1)
+    end
+
+    context "when params are invalid" do
+      it "returns http unprocessable entity" do
+        post "/transactions", params: { transaction: { amount: nil } }
+        expect(response).to have_http_status(422)
+      end
     end
   end
 
