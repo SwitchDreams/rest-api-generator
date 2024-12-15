@@ -1,6 +1,6 @@
 name: CI
 env:
-  RUBY_VERSION: 3.3.4
+  RUBY_VERSION: 3.3.6
 
 on:
   pull_request:
@@ -26,8 +26,14 @@ jobs:
       - name: Check code
         run: rubocop
   rspec:
+    strategy:
+      fail-fast: false
+      matrix:
+        rails: [ "7.2", "8.0" ]
     name: RSpec
     runs-on: ubuntu-latest
+    env:
+      RAILS_VERSION: ${{ matrix.rails }}
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
