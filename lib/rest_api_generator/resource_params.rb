@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RestApiGenerator
   module ResourceParams
     extend ActiveSupport::Concern

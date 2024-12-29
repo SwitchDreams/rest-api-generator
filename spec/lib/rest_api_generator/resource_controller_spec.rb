@@ -44,7 +44,7 @@ RSpec.describe "ResourceController", type: :request do
     context "when params are invalid" do
       it "returns http unprocessable entity" do
         post "/transactions", params: { transaction: { amount: nil } }
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
