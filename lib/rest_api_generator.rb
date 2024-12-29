@@ -10,6 +10,7 @@ require_relative "rest_api_generator/filterable"
 require_relative "rest_api_generator/orderable"
 require_relative "rest_api_generator/serializable"
 require_relative "rest_api_generator/controller_callbacks"
+require_relative "rest_api_generator/resource_params"
 
 module RestApiGenerator
   class Error < StandardError; end

@@ -5,6 +5,7 @@ module RestApiGenerator
     include ControllerCallbacks
     include Orderable
     include Serializable
+    include ResourceParams
 
     before_action :set_parent_resource
     before_action :set_resource, only: [:show, :update, :destroy]
@@ -56,27 +57,6 @@ module RestApiGenerator
 
     def resource_class
       resource_by_controller_name
-    end
-
-    # Params
-    def resource_created_params
-      resource_params
-    end
-
-    def resource_updated_params
-      resource_params
-    end
-
-    def resource_params
-      params.require(resource_class.model_name.singular.to_sym).permit(resource_attributes)
-    end
-
-    def resource_attributes
-      resource_class.attribute_names.map(&:to_sym)
-    end
-
-    def params_for_filter
-      params.slice(*resource_class.filter_scopes)
     end
 
     # Before actions
