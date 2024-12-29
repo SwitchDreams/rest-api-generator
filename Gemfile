@@ -18,13 +18,6 @@ gem "sqlite3"
 
 # Serializers
 
-# TODO: waiting for https://github.com/yosiat/panko_serializer/issues/166
-if Gem::Version.new(rails_version) >= Gem::Version.new("8.0")
-  gem "panko_serializer", github: "yosiat/panko_serializer", branch: "master"
-else
-  gem "panko_serializer"
-end
-
-
+gem "panko_serializer", "~> 0.8"
 
 gem "active_model_serializers", "~> 0.10.0"
