@@ -18,6 +18,6 @@ gem "sqlite3"
 
 # Serializers
 
-gem "panko_serializer", "~> 0.8"
+gem "panko_serializer", "~> 0.8.3"
 
 gem "active_model_serializers", "~> 0.10.0"
